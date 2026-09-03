@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Bakery — Website Wireframe</title>
+</head>
+<body>
+  <header>
+    <nav aria-label="Main navigation">
+      <a href="#home">THE BAKERY</a>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#menu">Our Menu</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#cart">Cart (0)</a></li>
+        <li><a href="#admin">Admin Portal</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" aria-labelledby="home-title">
+      <p>[Hero image / bakery interior]</p>
+      <p>WELCOME TO</p>
+      <h1 id="home-title">The Bakery</h1>
+      <p>Where quality baking meets excellent aesthetics.</p>
+      <a href="#menu">Explore Our Menu</a>
+    </section>
+
+    <section id="menu" aria-labelledby="menu-title">
+      <p>[Menu section]</p>
+      <h2 id="menu-title">Our Menu</h2>
+      <p>Freshly made. Beautifully served.</p>
+
+      <section aria-labelledby="frappes-title">
+        <p>[Frappe image]</p>
+        <h3 id="frappes-title">Frappes</h3>
+        <ul>
+          <li>Caramel Frappe — R45 <button type="button">Add to Cart</button></li>
+          <li>Oreo Frappe — R54 <button type="button">Add to Cart</button></li>
+          <li>Chocolate Frappe — R35 <button type="button">Add to Cart</button></li>
+          <li>Vanilla Frappe — R35 <button type="button">Add to Cart</button></li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="cakes-title">
+        <p>[Cake image]</p>
+        <h3 id="cakes-title">Cakes</h3>
+        <ul>
+          <li>Vanilla Cake — R35 <button type="button">Add to Cart</button></li>
+          <li>Chocolate Cake — R45 <button type="button">Add to Cart</button></li>
+          <li>Chocolate Oreo Cake — R45 <button type="button">Add to Cart</button></li>
+          <li>Carrot Cake — R35 <button type="button">Add to Cart</button></li>
+          <li>Red Velvet Cake — R45 <button type="button">Add to Cart</button></li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="drinks-title">
+        <p>[Drinks and scones image]</p>
+        <h3 id="drinks-title">Drinks &amp; More</h3>
+        <ul>
+          <li>Water — R10 <button type="button">Add to Cart</button></li>
+          <li>Power Rate — R22 <button type="button">Add to Cart</button></li>
+          <li>Coke — R15 <button type="button">Add to Cart</button></li>
+          <li>Scones — R10 <button type="button">Add to Cart</button></li>
+        </ul>
+      </section>
+    </section>
+
+    <section id="about" aria-labelledby="about-title">
+      <p>[About section image / cafe interior]</p>
+      <h2 id="about-title">About The Bakery</h2>
+      <p>We are passionate about quality baking and excellent aesthetics. Every item is made with care and served fresh.</p>
+      <address>
+        123 Church Street<br>
+        Polokwane, Limpopo
+      </address>
+      <p>Phone: <a href="tel:+27151234567">015 123 4567</a></p>
+      <p>Email: <a href="mailto:hello@thebakery.example">hello@thebakery.example</a></p>
+      <a href="#social">Follow us on TikTok</a>
+    </section>
+
+    <section id="cart" aria-labelledby="cart-title">
+      <p>[Cart drawer or cart modal]</p>
+      <h2 id="cart-title">Your Cart</h2>
+      <p>Demo cart state is replaced here by the real order summary.</p>
+      <table>
+        <caption>Selected items</caption>
+        <thead>
+          <tr><th scope="col">Item</th><th scope="col">Quantity</th><th scope="col">Price</th><th scope="col">Action</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Caramel Frappe</td><td>1</td><td>R45</td><td><button type="button">Remove</button></td></tr>
+          <tr><td colspan="2"><strong>Subtotal</strong></td><td><strong>R45</strong></td><td></td></tr>
+        </tbody>
+      </table>
+      <button type="button">Checkout</button>
+    </section>
+
+    <section id="admin" aria-labelledby="admin-title">
+      <p>[Separate admin website / admin.html]</p>
+      <h2 id="admin-title">Admin Portal</h2>
+      <p>Protected staff area for managing the bakery menu.</p>
+
+      <section aria-labelledby="admin-login-title">
+        <h3 id="admin-login-title">Admin Login</h3>
+        <form>
+          <label for="admin-email">Email</label>
+          <input id="admin-email" name="email" type="email" autocomplete="username">
+          <label for="admin-password">Password</label>
+          <input id="admin-password" name="password" type="password" autocomplete="current-password">
+          <button type="submit">Sign In</button>
+        </form>
+      </section>
+
+      <section aria-labelledby="crud-title">
+        <h3 id="crud-title">Manage Menu Items</h3>
+        <form>
+          <label for="item-name">Item name</label>
+          <input id="item-name" name="name" type="text">
+          <label for="item-category">Category</label>
+          <select id="item-category" name="category">
+            <option>Frappes</option><option>Cakes</option><option>Drinks &amp; More</option>
+          </select>
+          <label for="item-price">Price</label>
+          <input id="item-price" name="price" type="number" min="0" step="1">
+          <label for="item-image">Image URL</label>
+          <input id="item-image" name="image" type="url">
+          <button type="submit">Create Item</button>
+          <button type="button">Update Item</button>
+          <button type="reset">Clear Form</button>
+        </form>
+      </section>
+
+      <section aria-labelledby="inventory-title">
+        <h3 id="inventory-title">Menu Inventory</h3>
+        <table>
+          <caption>Manage existing menu items</caption>
+          <thead><tr><th scope="col">Item</th><th scope="col">Category</th><th scope="col">Price</th><th scope="col">Visibility</th><th scope="col">Actions</th></tr></thead>
+          <tbody>
+            <tr><td>Caramel Frappe</td><td>Frappes</td><td>R45</td><td>Visible</td><td><button type="button">Edit</button> <button type="button">Delete</button></td></tr>
+            <tr><td>Chocolate Cake</td><td>Cakes</td><td>R45</td><td>Visible</td><td><button type="button">Edit</button> <button type="button">Delete</button></td></tr>
+          </tbody>
+        </table>
+      </section>
+    </section>
+  </main>
+
+  <footer>
+    <p><strong>THE BAKERY</strong></p>
+    <nav aria-label="Footer navigation"><a href="#home">Home</a> · <a href="#menu">Menu</a> · <a href="#about">About</a> · <a href="#admin">Admin Portal</a></nav>
+    <p>&copy; 2026 The Bakery. All rights reserved.</p>
+  </footer>
+</body>
+</html>

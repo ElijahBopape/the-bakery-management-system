@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Bakery — Polokwane</title>
+  <meta
+    name="description"
+    content="The Bakery in the heart of Polokwane. Frappes, cakes, drinks and more, crafted with a love for quality baking and excellent aesthetics."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <nav class="nav container">
+      <a href="#home" class="brand">
+        <svg class="icon gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.6 13.11l5.79-3.21c1.89-1.05 4.79 1.78 3.71 3.71l-3.22 5.81C8.8 23.16.79 15.23 4.6 13.11z"/><path d="M19.04 4.96a4.5 4.5 0 0 0-6.36 0l-3.66 3.66a4.5 4.5 0 0 0 6.36 6.36l3.66-3.66a4.5 4.5 0 0 0 0-6.36z"/></svg>
+        <span class="brand-text">The <span class="gold">Bakery</span></span>
+      </a>
+
+      <input type="checkbox" id="nav-toggle" class="nav-toggle" />
+
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#menu">Our Menu</a></li>
+        <li><a href="#about">About Us</a></li>
+        
+      </ul>
+
+      <div class="nav-actions">
+        <button type="button" class="cart-btn" id="cart-open" aria-label="Open cart">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span class="cart-count" id="cart-count" aria-hidden="true">0</span>
+        </button>
+        <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle menu">
+          <svg class="icon menu-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          <svg class="icon menu-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </label>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section id="home" class="hero">
+      <img src="images/hero-bakery.png" alt="Warm, dimly lit bakery interior" class="hero-bg" />
+      <div class="hero-overlay" aria-hidden="true"></div>
+      <div class="container hero-content">
+        <span class="badge">
+          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          Freshly baked in Polokwane
+        </span>
+        <h1 class="hero-title">Warm bakes, rich coffee, and a little <span class="gold">golden</span> magic</h1>
+        <p class="hero-sub">
+          Welcome to The Bakery — where every frappe, cake, and scone is crafted
+          with a love for quality baking and excellent aesthetics.
+        </p>
+        <div class="hero-actions">
+          <a href="#menu" class="btn btn-gold">Explore the Menu</a>
+          <a href="#about" class="btn btn-outline">Visit Us</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Menu -->
+    <section id="menu" class="container section">
+      <div class="section-head">
+        <p class="eyebrow">Handcrafted daily</p>
+        <h2 class="section-title">Our Menu</h2>
+      </div>
+
+      <div class="menu-grid">
+        <article class="menu-card">
+          <div class="menu-img-wrap">
+            <img src="images/frappe.png" alt="Frappes" class="menu-img" />
+            <div class="menu-img-fade" aria-hidden="true"></div>
+          </div>
+          <div class="menu-body">
+            <div class="menu-cat">
+              <svg class="icon gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+              <h3>Frappes</h3>
+            </div>
+            <ul class="item-list">
+              <li>
+                <span class="item-name">Caramel Frappe</span>
+                <span class="item-actions"><span class="price">R45</span><button type="button" class="btn-add" data-name="Caramel Frappe" data-price="45" aria-label="Add Caramel Frappe to cart">Add</button></span>
+              </li>
+              <li>
+                <span class="item-name">Oreo Frappe</span>
+                <span class="item-actions"><span class="price">R54</span><button type="button" class="btn-add" data-name="Oreo Frappe" data-price="54" aria-label="Add Oreo Frappe to cart">Add</button></span>
+              </li>
+              <li>
+                <span class="item-name">Chocolate Frappe</span>
+                <span class="item-actions"><span class="price">R35</span><button type="button" class="btn-add" data-name="Chocolate Frappe" data-price="35" aria-label="Add Chocolate Frappe to cart">Add</button></span>
+              </li>
+              <li>
+                <span class="item-name">Vanilla Frappe</span>
+                <span class="item-actions"><span class="price">R35</span><button type="button" class="btn-add" data-name="Vanilla Frappe" data-price="35" aria-label="Add Vanilla Frappe to cart">Add</button></span>
+              </li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="menu-card">
+          <div class="menu-img-wrap">
+            <img src="images/cake.png" alt="Cakes" class="menu-img" />
+            <div class="menu-img-fade" aria-hidden="true"></div>
+          </div>
+          <div class="menu-body">
+            <div class="menu-cat">
+              <svg class="icon gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"/><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"/><path d="M2 21h20"/><path d="M7 8v3"/><path d="M12 8v3"/><path d="M17 8v3"/><path d="M7 4h.01"/><path d="M12 4h.01"/><path d="M17 4h.01"/></svg>
+              <h3>Cakes</h3>
+            </div>
+            <ul class="item-list">
+              <li>
+                <span class="item-name">Vanilla Cake</span>
+                <span class="item-actions"><span class="price">R35</span><button type="button" class="btn-add" data-name="Vanilla Cake" data-price="35" aria-label="Add Vanilla Cake to cart">Add</button></span>
+              </li>
+              <li>
+                <span class="item-name">Chocolate Cake</span>
+                <span class="item-actions"><span class="price">R45</span><button type="button" class="btn-add" data-name="Chocolate Cake" data-price="45" aria-label="Add Chocolate Cake to cart">Add</button></span>
+              </li>
+              <li>
+                <span class="item-name">Chocolate Oreo Cake</span>
+                <span class="item-actions"><span class="price">R45</span><button type="button" class="btn-add" data-name="Chocolate Oreo Cake" data-price="45" aria-label="Add Chocolate Oreo Cake to cart">Add</button></span>
+              </li>
+              <li>
+                <span class="item-name">Carrot Cake</span>
+                <span class="item-actions"><span class="price">R35</span><button type="button" class="btn-add" data-name="Carrot Cake" data-price="35" aria-label="Add Carrot Cake to cart">Add</button></span>
+              </li>
+              <li>
+                <span class="item-name">Red Velvet Cake</span>
+                <span class="item-actions"><span class="price">R45</span><button type="button" class="btn-add" data-name="Red Velvet Cake" data-price="45" aria-label="Add Red Velvet Cake to cart">Add</button></span>
+              </li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="menu-card">
+          <div class="menu-img-wrap">
+            <img src="images/drink.png" alt="Drinks and extras" class="menu-img" />
+            <div class="menu-img-fade" aria-hidden="true"></div>
+          </div>
+          <div class="menu-body">
+            <div class="menu-cat">
+              <svg class="icon gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v0a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M5 7l1.5 12.5A2 2 0 0 0 8.5 21h7a2 2 0 0 0 2-1.5L19 7"/><path d="M9 11h6"/></svg>
+              <h3>Drinks &amp; Extras</h3>
+            </div>
+            <ul class="item-list">
+              <li>
+                <span class="item-name">Water</span>
+                <span class="item-actions"><span class="price">R10</span><button type="button" class="btn-add" data-name="Water" data-price="10" aria-label="Add Water to cart">Add</button></span>
+              </li>
+              <li>
+                <span class="item-name">Power Rate</span>
+                <span class="item-actions"><span class="price">R22</span><button type="button" class="btn-add" data-name="Power Rate" data-price="22" aria-label="Add Power Rate to cart">Add</button></span>
+              </li>
+              <li>
+                <span class="item-name">Coke</span>
+                <span class="item-actions"><span class="price">R15</span><button type="button" class="btn-add" data-name="Coke" data-price="15" aria-label="Add Coke to cart">Add</button></span>
+              </li>
+              <li>
+                <span class="item-name">Scones</span>
+                <span class="item-actions"><span class="price">R10</span><button type="button" class="btn-add" data-name="Scones" data-price="10" aria-label="Add Scones to cart">Add</button></span>
+              </li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="about">
+      <div class="container about-grid">
+        <div class="about-img-wrap">
+          <img src="images/about-interior.png" alt="The cozy interior of The Bakery" class="about-img" />
+        </div>
+        <div>
+          <p class="eyebrow">Our Story</p>
+          <h2 class="section-title left">About Us</h2>
+          <p class="about-text">
+            Located in the heart of Polokwane, The Bakery was built on a love for
+            quality baking and excellent aesthetics. Every item on our menu is
+            crafted with care, served in a warm, welcoming space designed to feel
+            like home.
+          </p>
+          <div class="contact-list">
+            <div class="contact-row">
+              <svg class="icon gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>65 Market Street, Polokwane</span>
+            </div>
+            <div class="contact-row">
+              <svg class="icon gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <a href="tel:0813586602">081 358 6602</a>
+            </div>
+          </div>
+          <a href="https://www.tiktok.com" target="_blank" rel="noreferrer" class="btn btn-gold tiktok">
+            <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+            Follow us on TikTok
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Admin Portal -->
+    <section id="admin" class="container admin">
+      <div class="section-head">
+        <h2 class="section-title">Admin Portal</h2>
+        <p class="notice">
+          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          System Notice: Frontend UI Mockup Only
+        </p>
+      </div>
+
+      <div class="admin-grid">
+        <!-- Login -->
+        <form class="panel" aria-label="Admin login" onsubmit="return false">
+          <div class="panel-head">
+            <svg class="icon gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <h3>Admin Login</h3>
+          </div>
+          <div class="field"><label for="manager-id">Manager ID</label><input id="manager-id" type="text" placeholder="e.g. MGR-001" /></div>
+          <div class="field"><label for="password">Password</label><input id="password" type="password" placeholder="••••••••" /></div>
+          <button type="submit" class="btn btn-gold full">Login</button>
+        </form>
+
+        <!-- Manage Inventory -->
+        <form class="panel" aria-label="Manage inventory" onsubmit="return false">
+          <div class="panel-head">
+            <svg class="icon gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 16h6"/><path d="M19 13v6"/><path d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0"/><path d="M3.27 6.96 12 12.01l8.73-5.05"/><path d="M12 22.08V12"/></svg>
+            <h3>Manage Inventory</h3>
+          </div>
+          <div class="field"><label for="action">Action</label><select id="action"><option>Add</option><option>Update</option><option>Delete</option></select></div>
+          <div class="field"><label for="product-name">Product Name</label><input id="product-name" type="text" placeholder="e.g. Carrot Cake" /></div>
+          <div class="field"><label for="price">Price</label><input id="price" type="text" placeholder="e.g. R35" /></div>
+          <button type="submit" class="btn btn-gold full">Submit</button>
+        </form>
+
+        <!-- Stock Viewer -->
+        <div class="panel">
+          <div class="panel-head">
+            <svg class="icon gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.97 12.92A2 2 0 0 0 2 14.63v3.24a2 2 0 0 0 .97 1.71l3 1.8a2 2 0 0 0 2.06 0L12 19v-5.5l-5-3-4.03 2.42Z"/><path d="m7 16.5-4.74-2.85"/><path d="m7 16.5 5-3"/><path d="M7 16.5v5.17"/><path d="M12 13.5V19l3.97 2.38a2 2 0 0 0 2.06 0l3-1.8a2 2 0 0 0 .97-1.71v-3.24a2 2 0 0 0-.97-1.71L17 10.5l-5 3Z"/><path d="m17 16.5-5-3"/><path d="m17 16.5 4.74-2.85"/><path d="M17 16.5v5.17"/><path d="M7.97 4.42A2 2 0 0 0 7 6.13v4.37l5 3 5-3V6.13a2 2 0 0 0-.97-1.71l-3-1.8a2 2 0 0 0-2.06 0l-3 1.8Z"/><path d="M12 8 7.26 5.15"/><path d="m12 8 4.74-2.85"/><path d="M12 13.5V8"/></svg>
+            <h3>Stock Viewer</h3>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Item Name</th><th class="center">Qty</th><th class="right">Status</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Caramel Frappe</td><td class="center muted">24</td><td class="right"><span class="tag in">In Stock</span></td></tr>
+                <tr><td>Chocolate Cake</td><td class="center muted">6</td><td class="right"><span class="tag low">Low Stock</span></td></tr>
+                <tr><td>Red Velvet Cake</td><td class="center muted">12</td><td class="right"><span class="tag in">In Stock</span></td></tr>
+                <tr><td>Scones</td><td class="center muted">3</td><td class="right"><span class="tag low">Low Stock</span></td></tr>
+                <tr><td>Coke</td><td class="center muted">40</td><td class="right"><span class="tag in">In Stock</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="brand">
+        <svg class="icon gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.6 13.11l5.79-3.21c1.89-1.05 4.79 1.78 3.71 3.71l-3.22 5.81C8.8 23.16.79 15.23 4.6 13.11z"/><path d="M19.04 4.96a4.5 4.5 0 0 0-6.36 0l-3.66 3.66a4.5 4.5 0 0 0 6.36 6.36l3.66-3.66a4.5 4.5 0 0 0 0-6.36z"/></svg>
+        <span class="brand-text">The <span class="gold">Bakery</span></span>
+      </div>
+      <div class="footer-contact">
+        <span><svg class="icon-sm gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> 65 Market Street, Polokwane</span>
+        <span><svg class="icon-sm gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg> 081 358 6602</span>
+      </div>
+      <p class="copyright">© 2026 The Bakery. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Cart Drawer (mockup) -->
+  <div class="cart-overlay" id="cart-overlay" hidden></div>
+  <aside class="cart-drawer" id="cart-drawer" aria-label="Shopping cart" aria-hidden="true">
+    <div class="cart-head">
+      <div class="panel-head" style="margin:0">
+        <svg class="icon gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <h3>Your Cart</h3>
+      </div>
+      <button type="button" class="cart-close" id="cart-close" aria-label="Close cart">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <p class="cart-notice">
+      <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Demo only — no real orders are placed
+    </p>
+
+    <div class="cart-items" id="cart-items">
+      <p class="cart-empty" id="cart-empty">Your cart is empty. Add something delicious from the menu.</p>
+    </div>
+
+    <div class="cart-foot">
+      <div class="cart-subtotal">
+        <span>Subtotal</span>
+        <span class="cart-total gold" id="cart-total">R0</span>
+      </div>
+      <button type="button" class="btn btn-gold full" id="cart-checkout">Checkout</button>
+    </div>
+  </aside>
+
+  <script src="cart.js"></script>
+  <script src="public-menu.js"></script>
+</body>
+</html>

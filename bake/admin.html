@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard — The Bakery</title>
+  <meta name="description" content="The Bakery menu administration dashboard." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+  <header class="navbar"><nav class="nav container">
+    <a href="index.html" class="brand"><span class="brand-mark gold">✦</span><span class="brand-text">The <span class="gold">Bakery</span></span></a>
+    <a href="index.html" class="admin-back">View public site</a>
+  </nav></header>
+  <main class="container admin-page">
+    <div class="admin-page-heading">
+      <div><p class="eyebrow">Private demo workspace</p><h1 class="section-title left">Menu Manager</h1><p class="admin-lede">Create, update, hide, or remove items from the public menu.</p></div>
+      <span class="notice">Frontend mockup only</span>
+    </div>
+    <div class="admin-layout">
+      <section class="panel editor-panel" aria-labelledby="editor-title">
+        <div class="panel-head"><span class="admin-icon gold">＋</span><h2 id="editor-title">Add menu item</h2></div>
+        <form id="item-form" novalidate>
+          <input type="hidden" id="item-id" />
+          <div class="field"><label for="item-name">Item name</label><input id="item-name" required maxlength="50" placeholder="e.g. Cinnamon Roll" /></div>
+          <div class="field"><label for="item-category">Category</label><select id="item-category"><option>Frappes</option><option>Cakes</option><option>Drinks &amp; Extras</option></select></div>
+          <div class="field"><label for="item-price">Price (R)</label><input id="item-price" type="number" min="1" max="9999" step="1" required placeholder="35" /></div>
+          <div class="form-actions"><button class="btn btn-gold" type="submit" id="save-item">Add item</button><button class="btn btn-outline" type="button" id="cancel-edit" hidden>Cancel</button></div>
+          <p class="form-message" id="form-message" role="status"></p>
+        </form>
+        <div class="reset-box"><p>Restore the original demo menu if needed.</p><button class="text-button" type="button" id="reset-data">Reset demo data</button></div>
+      </section>
+      <section class="panel inventory-panel" aria-labelledby="inventory-title">
+        <div class="inventory-heading"><div class="panel-head"><span class="admin-icon gold">▦</span><h2 id="inventory-title">Menu inventory</h2></div><span class="inventory-count" id="inventory-count">0 items</span></div>
+        <div class="inventory-tools"><label class="search-field"><span class="sr-only">Search menu</span><input id="search-items" type="search" placeholder="Search items..." /></label><select id="filter-category" aria-label="Filter by category"><option value="all">All categories</option><option>Frappes</option><option>Cakes</option><option>Drinks &amp; Extras</option></select></div>
+        <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Item</th><th>Category</th><th>Price</th><th>Status</th><th class="right">Actions</th></tr></thead><tbody id="inventory-body"></tbody></table><p class="admin-empty" id="admin-empty" hidden>No menu items match your search.</p></div>
+      </section>
+    </div>
+  </main>
+  <footer class="footer"><div class="container footer-inner"><div class="brand"><span class="brand-mark gold">✦</span><span class="brand-text">The <span class="gold">Bakery</span></span></div><p class="copyright">Demo admin dashboard · Changes stay in this browser</p></div></footer>
+  <script src="admin.js"></script>
+</body>
+</html>

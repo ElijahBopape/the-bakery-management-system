@@ -32,15 +32,44 @@ The mobile application provides authorised bakery users with access to key opera
 The database stores and manages system information including customers, products, orders, sales, payments, stock, suppliers and system users.
 
 ## Repository Structure
+```
 the-bakery-management-system/
-├── website/
-├── mobile-app/
+├── backend/           # REST API (Python + FastAPI)
+├── bake/              # Website (HTML/CSS/JS)
+├── mobile-app/        # Android app (Kotlin)
 ├── documentation/
 │   ├── sitemap/
 │   ├── wireframes/
 │   └── project-plan/
 ├── README.md
 └── .gitignore
+```
+
+## API (Backend)
+
+Built with **Python + FastAPI + SQLite**. See [`backend/`](./backend/) for setup instructions.
+
+Base URL (local): `http://localhost:8000`  
+Interactive docs: `http://localhost:8000/docs`
+
+### Key Endpoints
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| POST | `/auth/register` | — | Register new user |
+| POST | `/auth/login` | — | Login, returns JWT token |
+| GET | `/auth/sso` | Bearer | Verify token (SSO check on app startup) |
+| GET | `/auth/me` | Bearer | Get current user profile |
+| GET | `/categories` | — | List all product categories |
+| GET | `/products` | — | List all available products |
+| GET | `/products/{id}` | — | Get single product |
+| POST | `/products` | Admin | Create product |
+| PUT | `/products/{id}` | Admin | Update product |
+| DELETE | `/products/{id}` | Admin | Delete product |
+| POST | `/orders` | Bearer | Place an order |
+| GET | `/orders` | Bearer | List orders (own / all for admin) |
+| GET | `/orders/{id}` | Bearer | Get order detail |
+| PUT | `/orders/{id}/status` | Admin | Update order status |
 
 ## Documentation
 

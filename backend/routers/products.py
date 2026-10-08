@@ -82,5 +82,12 @@ def delete_product(
     product = db.query(models.Product).filter(models.Product.id == product_id).first()
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
+    # Orders keep a link to the product. Deleting it would break those orders, so hide it instead.
+    on_order = db.query(models.OrderItem).filter(models.OrderItem.product_id == product_id).first()
+    if on_order:
+        raise HTTPException(
+            status_code=409,
+            detail="This product is on existing orders, so it can't be deleted. Set it to unavailable instead.",
+        )
     db.delete(product)
     db.commit()

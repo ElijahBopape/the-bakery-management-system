@@ -29,3 +29,6 @@ dist/
 build/
 *.apk
 *.aab
+
+# Original phone/TikTok video files (web copies live in bake/videos/)
+bake/videos/originals/

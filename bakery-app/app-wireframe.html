@@ -9,23 +9,54 @@
 <body>
   <header>
     <h1>The Bakery App</h1>
-    <p>HTML-only mobile app wireframe</p>
+    <p>HTML mobile app wireframe, connected to the live bakery API</p>
   </header>
 
   <main>
-    <section id="login" class="screen active" aria-labelledby="login-title">
+    <!-- Splash: checks a saved sign-in with the server before showing anything (SSO) -->
+    <section id="splash" class="screen" aria-labelledby="splash-title">
+      <header>
+        <p>Screen 00</p>
+        <h2 id="splash-title">The Bakery</h2>
+        <p id="splash-message" role="status">Checking your sign-in…</p>
+      </header>
+      <p><button type="button" id="splash-retry" hidden>Try again</button></p>
+    </section>
+
+    <hr>
+
+    <section id="login" class="screen" aria-labelledby="login-title">
       <header>
         <p>Screen 01</p>
         <h2 id="login-title">Welcome back</h2>
         <p>Sign in to order your favourites and track deliveries.</p>
       </header>
-      <form action="#home" method="get">
+      <form id="login-form" novalidate>
         <p><label for="email">Email address</label><br><input id="email" name="email" type="email" autocomplete="email" required></p>
         <p><label for="password">Password</label><br><input id="password" name="password" type="password" autocomplete="current-password" required></p>
-        <p><a href="#login">Forgot password?</a></p>
+        <p class="error" id="login-error" role="alert"></p>
         <p><button type="submit">Log in</button></p>
       </form>
-      <p>New to The Bakery? <a href="#login">Create an account</a></p>
+      <p>New to The Bakery? <a href="#register">Create an account</a></p>
+    </section>
+
+    <hr>
+
+    <section id="register" class="screen" aria-labelledby="register-title">
+      <header>
+        <p>Screen 01b</p>
+        <h2 id="register-title">Create an account</h2>
+        <p>It takes a minute, then you can order straight away.</p>
+      </header>
+      <form id="register-form" novalidate>
+        <p><label for="reg-name">Full name</label><br><input id="reg-name" type="text" autocomplete="name" maxlength="100" required></p>
+        <p><label for="reg-email">Email address</label><br><input id="reg-email" type="email" autocomplete="email" maxlength="150" required></p>
+        <p><label for="reg-phone">Phone (optional)</label><br><input id="reg-phone" type="tel" autocomplete="tel" maxlength="20"></p>
+        <p><label for="reg-password">Password (at least 6 characters)</label><br><input id="reg-password" type="password" autocomplete="new-password" minlength="6" required></p>
+        <p class="error" id="register-error" role="alert"></p>
+        <p><button type="submit">Create account</button></p>
+      </form>
+      <p>Already have an account? <a href="#login">Log in</a></p>
     </section>
 
     <hr>
@@ -33,42 +64,55 @@
     <section id="home" class="screen" aria-labelledby="home-title">
       <header>
         <p>Screen 02</p>
-        <p>Good morning, Customer</p>
+        <p id="greeting">Hello</p>
         <h2 id="home-title">What are you craving?</h2>
-        <form action="#home" method="get"><label for="search">Search the menu</label><br><input id="search" name="search" type="search" placeholder="Try “chocolate”"></form>
+        <form id="search-form" role="search"><label for="search">Search the menu</label><br><input id="search" name="search" type="search" placeholder="Try “chocolate”"></form>
       </header>
-      <nav aria-label="App navigation"><a href="#home">Home</a> | <a href="#order">Order</a> | <a href="#settings">Settings</a></nav>
-      <section aria-labelledby="popular-title">
-        <h3 id="popular-title">Popular today</h3>
-        <article><h4>Caramel Frappe</h4><p>Cold, creamy and caramel-drizzled.</p><p>R45 <button type="button">Add</button></p></article>
-        <article><h4>Chocolate Cake</h4><p>Rich layered chocolate cake.</p><p>R45 <button type="button">Add</button></p></article>
+      <nav aria-label="App navigation"><a href="#home">Home</a> | <a href="#order" class="order-link">Order</a> | <a href="#settings">Settings</a></nav>
+      <section aria-labelledby="menu-title">
+        <h3 id="menu-title">Menu</h3>
+        <p id="menu-status" role="status">Loading the menu…</p>
+        <div id="menu-list"></div>
       </section>
-      <p><a href="#order">Browse full menu</a></p>
+      <p><a href="#order">Go to my order</a></p>
     </section>
 
     <hr>
 
     <section id="order" class="screen" aria-labelledby="order-title">
-      
       <header><p>Screen 03</p><h2 id="order-title">Your order</h2><p>Review your items before checkout.</p></header>
-      <a href="#home">Home</a> | <a href="#order">Order</a> | <a href="#settings">Settings</a></nav>
+      <nav aria-label="App navigation"><a href="#home">Home</a> | <a href="#order" class="order-link">Order</a> | <a href="#settings">Settings</a></nav>
       <section aria-labelledby="items-title"><h3 id="items-title">Cart items</h3>
-        <article><h4>Caramel Frappe</h4><p>R45 <label for="frappe-quantity">Quantity</label> <input id="frappe-quantity" type="number" min="0" value="1"></p></article>
-        <article><h4>Chocolate Cake</h4><p>R45 <label for="cake-quantity">Quantity</label> <input id="cake-quantity" type="number" min="0" value="1"></p></article>
+        <p id="cart-empty">Your cart is empty. <a href="#home">Add something from the menu</a>.</p>
+        <div id="cart-list"></div>
       </section>
-      <section aria-labelledby="summary-title"><h3 id="summary-title">Order summary</h3><p>Subtotal: R90</p><p>Delivery: R20</p><p><strong>Total: R110</strong></p><p><button type="button">Continue to checkout</button></p></section>
-      <aside><p>Demo checkout area</p><p>Delivery address, payment method, and order confirmation appear here.</p></aside>
+      <section aria-labelledby="summary-title"><h3 id="summary-title">Order summary</h3>
+        <p><strong>Total: <span id="cart-total">R0</span></strong></p>
+        <p><label for="address">Delivery address (optional)</label><br><input id="address" type="text" autocomplete="street-address" maxlength="200" placeholder="e.g. 12 Main St, Polokwane"></p>
+        <p><label for="notes">Note for the baker (optional)</label><br><input id="notes" type="text" maxlength="200"></p>
+        <p class="message" id="order-message" role="status"></p>
+        <p><button type="button" id="place-order" disabled>Place order</button></p>
+      </section>
+      <section aria-labelledby="history-title"><h3 id="history-title">Recent orders</h3>
+        <p id="history-status" role="status">Loading your orders…</p>
+        <div id="history-list"></div>
+      </section>
     </section>
 
     <hr>
 
     <section id="settings" class="screen" aria-labelledby="settings-title">
       <header><p>Screen 04</p><h2 id="settings-title">Settings</h2><p>Manage your account and app preferences.</p></header>
-      <a href="#home">Home</a> | <a href="#order">Order</a> | <a href="#settings">Settings</a></nav>
-      <section aria-labelledby="profile-title"><h3 id="profile-title">Profile</h3><p>Name: Customer</p><p>Email: customer@example.com</p><p><a href="#settings">Edit profile</a></p></section>
-      <section aria-labelledby="preferences-title"><h3 id="preferences-title">Preferences</h3><form action="#settings" method="get"><p><label><input type="checkbox" name="notifications" checked> Order notifications</label></p><p><label><input type="checkbox" name="offers"> Bakery offers and updates</label></p><p><label for="theme">App theme</label><br><select id="theme" name="theme"><option>Dark gold</option><option>Light</option></select></p><p><button type="submit">Save preferences</button></p></form></section>
-      <p><a href="#login">Log out</a></p>
-      <nav aria-label="App navigation"><a href="#home">Home</a> | <a href="#order">Order</a> | <a href="#settings">Settings</a></nav>
+      <nav aria-label="App navigation"><a href="#home">Home</a> | <a href="#order" class="order-link">Order</a> | <a href="#settings">Settings</a></nav>
+      <section aria-labelledby="profile-title"><h3 id="profile-title">Profile</h3>
+        <p>Name: <span id="profile-name"></span></p>
+        <p>Email: <span id="profile-email"></span></p>
+        <p>Phone: <span id="profile-phone"></span></p>
+        <p>Member since: <span id="profile-since"></span></p>
+      </section>
+      <section aria-labelledby="preferences-title"><h3 id="preferences-title">Preferences</h3><form id="preferences-form"><p><label><input type="checkbox" name="notifications" checked> Order notifications</label></p><p><label><input type="checkbox" name="offers"> Bakery offers and updates</label></p><p><label for="theme">App theme</label><br><select id="theme" name="theme"><option>Dark gold</option><option>Light</option></select></p><p><button type="submit">Save preferences</button></p></form></section>
+      <p><a href="#login" id="logout">Log out</a></p>
+      <nav aria-label="App navigation"><a href="#home">Home</a> | <a href="#order" class="order-link">Order</a> | <a href="#settings">Settings</a></nav>
     </section>
   </main>
 

@@ -49,8 +49,24 @@ the-bakery-management-system/
 
 Built with **Python + FastAPI + SQLite**. See [`backend/`](./backend/) for setup instructions.
 
+Base URL (live): `https://the-bakery-api-production.up.railway.app`  
 Base URL (local): `http://localhost:8000`  
-Interactive docs: `http://localhost:8000/docs`
+Interactive docs: `http://localhost:8000/docs` (or `/docs` on the live URL)
+
+### How the website and app connect
+
+| Part | File | API calls |
+|------|------|-----------|
+| Server address (website) | `bake/api.js` (`API_BASE`, one line) | — |
+| Server address (app wireframe) | `bakery-app/app-wireframe.js` (`API_BASE`, one line) | — |
+| Public menu | `bake/public-menu.js` | `GET /categories`, `GET /products` |
+| Cart and ordering | `bake/cart.js` | `POST /orders` (customer signed in) |
+| Sign in, register, my orders | `bake/account.html` + `account.js` | `/auth/login`, `/auth/register`, `/auth/sso`, `GET /orders` |
+| Staff dashboard | `bake/admin.html` + `admin.js` | `/products` add/edit/hide/delete, `GET /orders`, `PUT /orders/{id}/status` |
+| App wireframe | `bakery-app/` | login, register, SSO, menu, place order, recent orders |
+
+The sign-in token is saved in `localStorage` under `token` and checked with `GET /auth/sso` whenever a page opens (SSO), so a valid sign-in skips the login form for 7 days.
+If the server can't be reached, the website still shows its built-in menu and customers can send their order on WhatsApp.
 
 ### Key Endpoints
 

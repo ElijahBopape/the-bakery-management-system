@@ -23,6 +23,12 @@ uvicorn main:app --reload --port 8000
 API runs at: http://localhost:8000  
 Interactive docs: http://localhost:8000/docs
 
+## Sample data (seed.py)
+
+The seed loads the shop's real menu: 13 items in Cakes, Frappes and Drinks & Extras, at the same prices as the website.
+The original sample products (White Loaf, Croissants, …) are still created but hidden (`is_available = false`),
+so category IDs 1–10 and product IDs 1–15 are unchanged for the mobile app. The admin dashboard can show or delete them.
+
 ## Admin credentials (seeded)
 
 | Email | Password |

@@ -9,7 +9,9 @@ from routers.auth import hash_password
 Base.metadata.create_all(bind=engine)
 db = SessionLocal()
 
-# ── Categories (10) ───────────────────────────────────────────────────────────
+# ── Categories (12) ───────────────────────────────────────────────────────────
+# IDs 1-10 are the original sample categories, kept in the same order so their IDs
+# don't change for the mobile app. 11-12 are categories from the shop's real menu.
 categories_data = [
     {"name": "Breads",       "description": "Freshly baked loaves and artisan breads"},
     {"name": "Cakes",        "description": "Celebration and everyday cakes"},
@@ -21,6 +23,8 @@ categories_data = [
     {"name": "Beverages",    "description": "Coffee, tea, and cold drinks"},
     {"name": "Specials",     "description": "Limited daily specials from the chef"},
     {"name": "Gluten-Free",  "description": "Certified gluten-free options"},
+    {"name": "Frappes",         "description": "Cold blended frappes"},
+    {"name": "Drinks & Extras", "description": "Cold drinks and scones"},
 ]
 
 cats = []
@@ -32,23 +36,39 @@ db.flush()
 
 cat_map = {c.name: c.id for c in cats}
 
-# ── Products (15) ─────────────────────────────────────────────────────────────
+# ── Products (25: 13 on the real menu, 12 hidden samples) ─────────────────────
+# IDs 1-15 are the original sample products, kept in the same order so their IDs
+# don't change. They are hidden (available=False) because the shop doesn't sell
+# them, except the three cakes that ARE on the real menu, which use the shop's prices.
+# IDs 16-25 are the rest of the shop's real menu (same items and prices as the website).
+# The admin dashboard can show, edit or delete any of them.
 products_data = [
-    {"name": "White Loaf",           "description": "Soft white bread, 700g",                  "price": 18.00, "category": "Breads"},
-    {"name": "Whole Wheat Loaf",     "description": "Nutty whole wheat, 700g",                  "price": 22.00, "category": "Breads"},
-    {"name": "Sourdough Loaf",       "description": "Tangy artisan sourdough",                  "price": 45.00, "category": "Breads"},
-    {"name": "Chocolate Cake",       "description": "Rich 3-layer chocolate fudge cake",        "price": 180.00,"category": "Cakes"},
-    {"name": "Carrot Cake",          "description": "Moist carrot cake with cream cheese icing","price": 160.00,"category": "Cakes"},
-    {"name": "Red Velvet Cake",      "description": "Classic red velvet with white frosting",   "price": 175.00,"category": "Cakes"},
-    {"name": "Butter Croissant",     "description": "Flaky French-style butter croissant",      "price": 28.00, "category": "Pastries"},
-    {"name": "Almond Danish",        "description": "Danish pastry with almond filling",        "price": 32.00, "category": "Pastries"},
-    {"name": "Blueberry Muffin",     "description": "Bursting with fresh blueberries",          "price": 22.00, "category": "Muffins"},
-    {"name": "Choc Chip Muffin",     "description": "Double chocolate chip muffin",             "price": 22.00, "category": "Muffins"},
-    {"name": "Choc Chip Cookies",    "description": "Chewy cookies, pack of 6",                 "price": 55.00, "category": "Cookies"},
-    {"name": "Peanut Butter Cookies","description": "Crispy peanut butter cookies, pack of 6",  "price": 55.00, "category": "Cookies"},
-    {"name": "Chicken Pie",          "description": "Creamy chicken and mushroom pie",          "price": 65.00, "category": "Pies"},
-    {"name": "Caramel Latte",        "description": "Espresso with caramel and steamed milk",   "price": 38.00, "category": "Beverages"},
-    {"name": "GF Banana Bread",      "description": "Gluten-free banana bread slice",           "price": 35.00, "category": "Gluten-Free"},
+    {"name": "White Loaf",           "description": "Soft white bread, 700g",                  "price": 18.00, "category": "Breads",      "available": False},
+    {"name": "Whole Wheat Loaf",     "description": "Nutty whole wheat, 700g",                  "price": 22.00, "category": "Breads",      "available": False},
+    {"name": "Sourdough Loaf",       "description": "Tangy artisan sourdough",                  "price": 45.00, "category": "Breads",      "available": False},
+    {"name": "Chocolate Cake",       "description": None,                                       "price": 45.00, "category": "Cakes"},
+    {"name": "Carrot Cake",          "description": None,                                       "price": 35.00, "category": "Cakes"},
+    {"name": "Red Velvet Cake",      "description": None,                                       "price": 45.00, "category": "Cakes"},
+    {"name": "Butter Croissant",     "description": "Flaky French-style butter croissant",      "price": 28.00, "category": "Pastries",    "available": False},
+    {"name": "Almond Danish",        "description": "Danish pastry with almond filling",        "price": 32.00, "category": "Pastries",    "available": False},
+    {"name": "Blueberry Muffin",     "description": "Bursting with fresh blueberries",          "price": 22.00, "category": "Muffins",     "available": False},
+    {"name": "Choc Chip Muffin",     "description": "Double chocolate chip muffin",             "price": 22.00, "category": "Muffins",     "available": False},
+    {"name": "Choc Chip Cookies",    "description": "Chewy cookies, pack of 6",                 "price": 55.00, "category": "Cookies",     "available": False},
+    {"name": "Peanut Butter Cookies","description": "Crispy peanut butter cookies, pack of 6",  "price": 55.00, "category": "Cookies",     "available": False},
+    {"name": "Chicken Pie",          "description": "Creamy chicken and mushroom pie",          "price": 65.00, "category": "Pies",        "available": False},
+    {"name": "Caramel Latte",        "description": "Espresso with caramel and steamed milk",   "price": 38.00, "category": "Beverages",   "available": False},
+    {"name": "GF Banana Bread",      "description": "Gluten-free banana bread slice",           "price": 35.00, "category": "Gluten-Free", "available": False},
+    # The shop's real menu
+    {"name": "Caramel Frappe",       "description": None,                                       "price": 45.00, "category": "Frappes"},
+    {"name": "Oreo Frappe",          "description": None,                                       "price": 54.00, "category": "Frappes"},
+    {"name": "Chocolate Frappe",     "description": None,                                       "price": 35.00, "category": "Frappes"},
+    {"name": "Vanilla Frappe",       "description": None,                                       "price": 35.00, "category": "Frappes"},
+    {"name": "Vanilla Cake",         "description": None,                                       "price": 35.00, "category": "Cakes"},
+    {"name": "Chocolate Oreo Cake",  "description": None,                                       "price": 45.00, "category": "Cakes"},
+    {"name": "Water",                "description": None,                                       "price": 10.00, "category": "Drinks & Extras"},
+    {"name": "Power Rate",           "description": None,                                       "price": 22.00, "category": "Drinks & Extras"},
+    {"name": "Coke",                 "description": None,                                       "price": 15.00, "category": "Drinks & Extras"},
+    {"name": "Scones",               "description": None,                                       "price": 10.00, "category": "Drinks & Extras"},
 ]
 
 for p in products_data:
@@ -57,7 +77,7 @@ for p in products_data:
         description=p["description"],
         price=p["price"],
         category_id=cat_map[p["category"]],
-        is_available=True,
+        is_available=p.get("available", True),
     ))
 db.flush()
 
@@ -94,19 +114,20 @@ db.flush()
 products = db.query(Product).all()
 prod_map = {p.name: p for p in products}
 
+# Sample orders use items from the real menu
 orders_data = [
-    {"user_idx": 2, "items": [("White Loaf", 2), ("Blueberry Muffin", 3)],          "status": "delivered", "address": "12 Main St, Polokwane"},
-    {"user_idx": 3, "items": [("Chocolate Cake", 1), ("Caramel Latte", 2)],          "status": "delivered", "address": "45 Church St, Polokwane"},
-    {"user_idx": 4, "items": [("Butter Croissant", 4), ("Choc Chip Muffin", 2)],     "status": "delivered", "address": "7 Park Ave, Polokwane"},
-    {"user_idx": 5, "items": [("Sourdough Loaf", 1), ("Chicken Pie", 2)],            "status": "ready",     "address": "22 Nelson Mandela Dr"},
-    {"user_idx": 6, "items": [("Red Velvet Cake", 1), ("Almond Danish", 3)],         "status": "preparing", "address": "89 Rabe St, Polokwane"},
-    {"user_idx": 7, "items": [("Choc Chip Cookies", 2), ("Peanut Butter Cookies", 1)],"status": "confirmed", "address": "3 Vorster St"},
-    {"user_idx": 8, "items": [("Carrot Cake", 1), ("Caramel Latte", 1)],             "status": "pending",   "address": "15 Bodenstein St"},
-    {"user_idx": 9, "items": [("GF Banana Bread", 2), ("Blueberry Muffin", 2)],      "status": "delivered", "address": "101 Grobler St"},
-    {"user_idx": 10,"items": [("Whole Wheat Loaf", 2), ("Butter Croissant", 2)],     "status": "delivered", "address": "56 Hans van Rensburg St"},
-    {"user_idx": 11,"items": [("Chocolate Cake", 1), ("Red Velvet Cake", 1)],        "status": "confirmed", "address": "77 Thabo Mbeki St"},
-    {"user_idx": 2, "items": [("White Loaf", 3), ("Chicken Pie", 1)],                "status": "pending",   "address": "12 Main St, Polokwane"},
-    {"user_idx": 3, "items": [("Sourdough Loaf", 1), ("Almond Danish", 2), ("Caramel Latte", 1)], "status": "preparing", "address": "45 Church St"},
+    {"user_idx": 2, "items": [("Caramel Frappe", 2), ("Scones", 3)],                 "status": "delivered", "address": "12 Main St, Polokwane"},
+    {"user_idx": 3, "items": [("Chocolate Cake", 1), ("Oreo Frappe", 2)],            "status": "delivered", "address": "45 Church St, Polokwane"},
+    {"user_idx": 4, "items": [("Vanilla Frappe", 2), ("Carrot Cake", 2)],            "status": "delivered", "address": "7 Park Ave, Polokwane"},
+    {"user_idx": 5, "items": [("Red Velvet Cake", 1), ("Coke", 2)],                  "status": "ready",     "address": "22 Nelson Mandela Dr"},
+    {"user_idx": 6, "items": [("Chocolate Oreo Cake", 2), ("Water", 2)],             "status": "preparing", "address": "89 Rabe St, Polokwane"},
+    {"user_idx": 7, "items": [("Chocolate Frappe", 1), ("Vanilla Cake", 2)],         "status": "confirmed", "address": "3 Vorster St"},
+    {"user_idx": 8, "items": [("Carrot Cake", 1), ("Caramel Frappe", 1)],            "status": "pending",   "address": "15 Bodenstein St"},
+    {"user_idx": 9, "items": [("Scones", 4), ("Power Rate", 2)],                     "status": "delivered", "address": "101 Grobler St"},
+    {"user_idx": 10,"items": [("Oreo Frappe", 2), ("Chocolate Cake", 2)],            "status": "delivered", "address": "56 Hans van Rensburg St"},
+    {"user_idx": 11,"items": [("Red Velvet Cake", 1), ("Vanilla Cake", 1)],          "status": "confirmed", "address": "77 Thabo Mbeki St"},
+    {"user_idx": 2, "items": [("Coke", 3), ("Chocolate Oreo Cake", 1)],              "status": "pending",   "address": "12 Main St, Polokwane"},
+    {"user_idx": 3, "items": [("Vanilla Frappe", 1), ("Scones", 2), ("Water", 1)],   "status": "preparing", "address": "45 Church St"},
 ]
 
 for o in orders_data:

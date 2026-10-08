@@ -1,5 +1,8 @@
 """
-Run once to populate the database with sample data.
+Populates the database with The Bakery's real menu and some sample users/orders.
+
+Safe to run again: it runs on every deploy (see Procfile), so it updates the menu
+in place instead of inserting duplicates, and it never deletes orders or users.
 Usage: python seed.py
 """
 from database import SessionLocal, engine, Base
@@ -9,79 +12,74 @@ from routers.auth import hash_password
 Base.metadata.create_all(bind=engine)
 db = SessionLocal()
 
-# ── Categories (12) ───────────────────────────────────────────────────────────
-# IDs 1-10 are the original sample categories, kept in the same order so their IDs
-# don't change for the mobile app. 11-12 are categories from the shop's real menu.
+# ── Menu categories (same as the website) ─────────────────────────────────────
 categories_data = [
-    {"name": "Breads",       "description": "Freshly baked loaves and artisan breads"},
-    {"name": "Cakes",        "description": "Celebration and everyday cakes"},
-    {"name": "Pastries",     "description": "Croissants, danishes, and flaky pastries"},
-    {"name": "Muffins",      "description": "Sweet and savoury muffins baked daily"},
-    {"name": "Cookies",      "description": "Crispy and chewy cookies in every flavour"},
-    {"name": "Pies",         "description": "Savoury and sweet pies"},
-    {"name": "Rolls",        "description": "Dinner rolls, hot cross buns, and more"},
-    {"name": "Beverages",    "description": "Coffee, tea, and cold drinks"},
-    {"name": "Specials",     "description": "Limited daily specials from the chef"},
-    {"name": "Gluten-Free",  "description": "Certified gluten-free options"},
     {"name": "Frappes",         "description": "Cold blended frappes"},
+    {"name": "Cakes",           "description": "Celebration and everyday cakes"},
     {"name": "Drinks & Extras", "description": "Cold drinks and scones"},
 ]
 
-cats = []
+cat_map = {}
 for c in categories_data:
-    obj = Category(**c)
-    db.add(obj)
-    cats.append(obj)
+    cat = db.query(Category).filter(Category.name == c["name"]).first()
+    if not cat:
+        cat = Category(name=c["name"])
+        db.add(cat)
+    cat.description = c["description"]
+    cat_map[c["name"]] = cat
 db.flush()
 
-cat_map = {c.name: c.id for c in cats}
-
-# ── Products (25: 13 on the real menu, 12 hidden samples) ─────────────────────
-# IDs 1-15 are the original sample products, kept in the same order so their IDs
-# don't change. They are hidden (available=False) because the shop doesn't sell
-# them, except the three cakes that ARE on the real menu, which use the shop's prices.
-# IDs 16-25 are the rest of the shop's real menu (same items and prices as the website).
-# The admin dashboard can show, edit or delete any of them.
-products_data = [
-    {"name": "White Loaf",           "description": "Soft white bread, 700g",                  "price": 18.00, "category": "Breads",      "available": False},
-    {"name": "Whole Wheat Loaf",     "description": "Nutty whole wheat, 700g",                  "price": 22.00, "category": "Breads",      "available": False},
-    {"name": "Sourdough Loaf",       "description": "Tangy artisan sourdough",                  "price": 45.00, "category": "Breads",      "available": False},
-    {"name": "Chocolate Cake",       "description": None,                                       "price": 45.00, "category": "Cakes"},
-    {"name": "Carrot Cake",          "description": None,                                       "price": 35.00, "category": "Cakes"},
-    {"name": "Red Velvet Cake",      "description": None,                                       "price": 45.00, "category": "Cakes"},
-    {"name": "Butter Croissant",     "description": "Flaky French-style butter croissant",      "price": 28.00, "category": "Pastries",    "available": False},
-    {"name": "Almond Danish",        "description": "Danish pastry with almond filling",        "price": 32.00, "category": "Pastries",    "available": False},
-    {"name": "Blueberry Muffin",     "description": "Bursting with fresh blueberries",          "price": 22.00, "category": "Muffins",     "available": False},
-    {"name": "Choc Chip Muffin",     "description": "Double chocolate chip muffin",             "price": 22.00, "category": "Muffins",     "available": False},
-    {"name": "Choc Chip Cookies",    "description": "Chewy cookies, pack of 6",                 "price": 55.00, "category": "Cookies",     "available": False},
-    {"name": "Peanut Butter Cookies","description": "Crispy peanut butter cookies, pack of 6",  "price": 55.00, "category": "Cookies",     "available": False},
-    {"name": "Chicken Pie",          "description": "Creamy chicken and mushroom pie",          "price": 65.00, "category": "Pies",        "available": False},
-    {"name": "Caramel Latte",        "description": "Espresso with caramel and steamed milk",   "price": 38.00, "category": "Beverages",   "available": False},
-    {"name": "GF Banana Bread",      "description": "Gluten-free banana bread slice",           "price": 35.00, "category": "Gluten-Free", "available": False},
-    # The shop's real menu
-    {"name": "Caramel Frappe",       "description": None,                                       "price": 45.00, "category": "Frappes"},
-    {"name": "Oreo Frappe",          "description": None,                                       "price": 54.00, "category": "Frappes"},
-    {"name": "Chocolate Frappe",     "description": None,                                       "price": 35.00, "category": "Frappes"},
-    {"name": "Vanilla Frappe",       "description": None,                                       "price": 35.00, "category": "Frappes"},
-    {"name": "Vanilla Cake",         "description": None,                                       "price": 35.00, "category": "Cakes"},
-    {"name": "Chocolate Oreo Cake",  "description": None,                                       "price": 45.00, "category": "Cakes"},
-    {"name": "Water",                "description": None,                                       "price": 10.00, "category": "Drinks & Extras"},
-    {"name": "Power Rate",           "description": None,                                       "price": 22.00, "category": "Drinks & Extras"},
-    {"name": "Coke",                 "description": None,                                       "price": 15.00, "category": "Drinks & Extras"},
-    {"name": "Scones",               "description": None,                                       "price": 10.00, "category": "Drinks & Extras"},
+# ── Menu products (same names and prices as the website, index.html) ──────────
+menu_data = [
+    {"name": "Caramel Frappe",      "price": 45.00, "category": "Frappes"},
+    {"name": "Oreo Frappe",         "price": 54.00, "category": "Frappes"},
+    {"name": "Chocolate Frappe",    "price": 35.00, "category": "Frappes"},
+    {"name": "Vanilla Frappe",      "price": 35.00, "category": "Frappes"},
+    {"name": "Vanilla Cake",        "price": 35.00, "category": "Cakes"},
+    {"name": "Chocolate Cake",      "price": 45.00, "category": "Cakes"},
+    {"name": "Chocolate Oreo Cake", "price": 45.00, "category": "Cakes"},
+    {"name": "Carrot Cake",         "price": 35.00, "category": "Cakes"},
+    {"name": "Red Velvet Cake",     "price": 45.00, "category": "Cakes"},
+    {"name": "Water",               "price": 10.00, "category": "Drinks & Extras"},
+    {"name": "Power Rate",          "price": 22.00, "category": "Drinks & Extras"},
+    {"name": "Coke",                "price": 15.00, "category": "Drinks & Extras"},
+    {"name": "Scones",              "price": 10.00, "category": "Drinks & Extras"},
 ]
+menu_names = {p["name"] for p in menu_data}
 
-for p in products_data:
-    db.add(Product(
-        name=p["name"],
-        description=p["description"],
-        price=p["price"],
-        category_id=cat_map[p["category"]],
-        is_available=p.get("available", True),
-    ))
+prod_map = {}
+for p in menu_data:
+    prod = db.query(Product).filter(Product.name == p["name"]).first()
+    if not prod:
+        prod = Product(name=p["name"])
+        db.add(prod)
+    prod.description = None
+    prod.price = p["price"]
+    prod.category_id = cat_map[p["category"]].id
+    prod.is_available = True
+    prod_map[p["name"]] = prod
 db.flush()
 
-# ── Users (12) ────────────────────────────────────────────────────────────────
+# Remove leftovers from the old sample menu (Breads, Pastries, ...). Items that
+# already appear on orders are hidden instead of deleted, so order history stays intact.
+ordered_product_ids = {row.product_id for row in db.query(OrderItem.product_id).all()}
+for old in db.query(Product).all():
+    if old.name in menu_names:
+        continue
+    if old.id in ordered_product_ids:
+        old.is_available = False
+    else:
+        db.delete(old)
+db.flush()
+
+for old_cat in db.query(Category).all():
+    if old_cat.name in cat_map:
+        continue
+    if db.query(Product).filter(Product.category_id == old_cat.id).first() is None:
+        db.delete(old_cat)
+db.flush()
+
+# ── Users (sample accounts) ───────────────────────────────────────────────────
 users_data = [
     {"name": "Admin User",       "email": "admin@thebakery.co.za",  "password": "Admin@1234",  "role": "admin"},
     {"name": "Elijah Bopape",    "email": "elijah@thebakery.co.za", "password": "Elijah@1234", "role": "admin"},
@@ -97,24 +95,23 @@ users_data = [
     {"name": "Mapula Sefolo",    "email": "mapula@gmail.com",       "password": "Pass@1234",   "role": "customer", "phone": "0601234567"},
 ]
 
-users = []
+users_by_email = {}
 for u in users_data:
-    obj = User(
-        name=u["name"],
-        email=u["email"],
-        password_hash=hash_password(u["password"]),
-        role=u.get("role", "customer"),
-        phone=u.get("phone"),
-    )
-    db.add(obj)
-    users.append(obj)
+    user = db.query(User).filter(User.email == u["email"]).first()
+    if not user:
+        user = User(
+            name=u["name"],
+            email=u["email"],
+            password_hash=hash_password(u["password"]),
+            role=u.get("role", "customer"),
+            phone=u.get("phone"),
+        )
+        db.add(user)
+    users_by_email[u["email"]] = user
 db.flush()
+users = [users_by_email[u["email"]] for u in users_data]
 
-# ── Orders + OrderItems (12 orders) ───────────────────────────────────────────
-products = db.query(Product).all()
-prod_map = {p.name: p for p in products}
-
-# Sample orders use items from the real menu
+# ── Sample orders (only when there are none yet, so restarts don't duplicate them) ──
 orders_data = [
     {"user_idx": 2, "items": [("Caramel Frappe", 2), ("Scones", 3)],                 "status": "delivered", "address": "12 Main St, Polokwane"},
     {"user_idx": 3, "items": [("Chocolate Cake", 1), ("Oreo Frappe", 2)],            "status": "delivered", "address": "45 Church St, Polokwane"},
@@ -130,20 +127,21 @@ orders_data = [
     {"user_idx": 3, "items": [("Vanilla Frappe", 1), ("Scones", 2), ("Water", 1)],   "status": "preparing", "address": "45 Church St"},
 ]
 
-for o in orders_data:
-    user = users[o["user_idx"]]
-    total = sum(prod_map[name].price * qty for name, qty in o["items"])
-    order = Order(
-        user_id=user.id,
-        total=round(total, 2),
-        status=o["status"],
-        delivery_address=o.get("address"),
-    )
-    db.add(order)
-    db.flush()
-    for name, qty in o["items"]:
-        p = prod_map[name]
-        db.add(OrderItem(order_id=order.id, product_id=p.id, quantity=qty, unit_price=p.price))
+if db.query(Order).count() == 0:
+    for o in orders_data:
+        user = users[o["user_idx"]]
+        total = sum(prod_map[name].price * qty for name, qty in o["items"])
+        order = Order(
+            user_id=user.id,
+            total=round(total, 2),
+            status=o["status"],
+            delivery_address=o.get("address"),
+        )
+        db.add(order)
+        db.flush()
+        for name, qty in o["items"]:
+            p = prod_map[name]
+            db.add(OrderItem(order_id=order.id, product_id=p.id, quantity=qty, unit_price=p.price))
 
 db.commit()
 db.close()

@@ -26,8 +26,9 @@ Interactive docs: http://localhost:8000/docs
 ## Sample data (seed.py)
 
 The seed loads the shop's real menu: 13 items in Cakes, Frappes and Drinks & Extras, at the same prices as the website.
-The original sample products (White Loaf, Croissants, …) are still created but hidden (`is_available = false`),
-so category IDs 1–10 and product IDs 1–15 are unchanged for the mobile app. The admin dashboard can show or delete them.
+It is safe to run again. It runs on every deploy (see `Procfile`), so it updates the menu in place, removes the old
+sample categories and products (Breads, Pastries, …) that have no orders, and only adds sample orders when there are none.
+Users and orders are never deleted.
 
 ## Admin credentials (seeded)
 

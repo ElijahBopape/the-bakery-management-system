@@ -16,7 +16,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env   # edit SECRET_KEY if needed
 
-python seed.py         # populates the database with sample data
+python seed.py         # populates the database with the menu and sample accounts (safe to repeat)
 uvicorn main:app --reload --port 8000
 ```
 

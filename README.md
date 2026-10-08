@@ -47,7 +47,7 @@ the-bakery-management-system/
 
 ## API (Backend)
 
-Built with **Python + FastAPI + SQLite**. See [`backend/`](./backend/) for setup instructions.
+Built with **Python + FastAPI**. The live API uses **PostgreSQL on Railway**. Locally it uses a SQLite file by default, or Postgres if you set `DATABASE_URL`. See [`backend/`](./backend/) for setup instructions.
 
 Base URL (live): `https://the-bakery-api-production.up.railway.app`  
 Base URL (local): `http://localhost:8000`  
@@ -86,6 +86,27 @@ If the server can't be reached, the website still shows its built-in menu and cu
 | GET | `/orders` | Bearer | List orders (own / all for admin) |
 | GET | `/orders/{id}` | Bearer | Get order detail |
 | PUT | `/orders/{id}/status` | Admin | Update order status |
+
+## Running and testing
+
+Quick start (API on your PC):
+
+```bash
+cd backend
+python -m venv .venv && .venv\Scripts\activate      # macOS/Linux: source .venv/bin/activate
+pip install -r requirements.txt
+python seed.py                                      # menu + sample accounts (safe to repeat)
+uvicorn main:app --reload --port 8000               # docs at http://localhost:8000/docs
+```
+
+Run the website against it by setting `API_BASE` in `bake/api.js` to the localhost line, then serving `bake/` with `python -m http.server 5500`. Run the Android app from Android Studio by opening `mobile-app/`.
+
+Automated API test (standard library only, writes test data, so run it against a local server):
+
+```bash
+cd backend
+python tests/api_smoke_test.py                      # expects "45 checks, 0 failed"
+```
 
 ## Documentation
 

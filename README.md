@@ -135,7 +135,7 @@ Project documentation includes:
 | --------------------------- | -------------------- | -------------------------------------------------------------------------------------------------------------------- |
 | Matome Elijah Bopape        | Database and API     | Database tables (10+ records each), the hosted API on Railway and its endpoint list                                  |
 | Isam Eltawil                | Android app          | Kotlin app: screens, register and login, SSO, settings and connection to the API, tested on a real phone             |
-| [Smilo, full name to confirm] | Website and testing | Website connected to the same API, unit tests, bug testing and keeping the schedule updated                          |
+| Matsobane Boshomane         | Website and testing | Website connected to the same API, unit tests, bug testing and keeping the schedule updated                          |
 | Tlou Pheme                  | DevOps and README    | GitHub Actions for build and tests, Azure DevOps Kanban board, repository structure and this README                 |
 
 Check-in schedule: the next check-in is Fri 9 Oct, when login, SSO and the main screens should work against the live API.

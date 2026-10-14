@@ -165,3 +165,4 @@ check("CORS preflight allowed", s == 200 and h.get("access-control-allow-origin"
 
 failed = [r for r in results if not r[1]]
 print("\n%d checks, %d failed" % (len(results), len(failed)))
+sys.exit(1 if failed else 0)

@@ -68,6 +68,25 @@ Interactive docs: `http://localhost:8000/docs` (or `/docs` on the live URL)
 The sign-in token is saved in `localStorage` under `token` and checked with `GET /auth/sso` whenever a page opens (SSO), so a valid sign-in skips the login form for 7 days.
 If the server can't be reached, the website still shows its built-in menu and customers can send their order on WhatsApp.
 
+### Running Locally
+
+```bash
+cd backend
+python -m venv venv
+venv\Scripts\activate            # macOS/Linux: source venv/bin/activate
+pip install -r requirements.txt
+copy .env.example .env           # macOS/Linux: cp .env.example .env
+python seed.py                   # creates bakery.db with sample data
+uvicorn main:app --reload --port 8000
+```
+
+### Screenshots
+
+| Item | File |
+|------|------|
+| Database tables with seeded records | [`documentation/screenshots/db-tables.png`](./documentation/screenshots/db-tables.png) |
+| API documentation page (`/docs`) | [`documentation/screenshots/api-docs.png`](./documentation/screenshots/api-docs.png) |
+
 ### Key Endpoints
 
 | Method | Endpoint | Auth | Description |
@@ -135,10 +154,8 @@ Project documentation includes:
 | --------------------------- | -------------------- | -------------------------------------------------------------------------------------------------------------------- |
 | Matome Elijah Bopape        | Database and API     | Database tables (10+ records each), the hosted API on Railway and its endpoint list                                  |
 | Isam Eltawil                | Android app          | Kotlin app: screens, register and login, SSO, settings and connection to the API, tested on a real phone             |
-| Matsobane Boshomane         | Website and testing | Website connected to the same API, unit tests, bug testing and keeping the schedule updated                          |
+| Motsobane Lethabo Boshomane | Website and testing | Website connected to the same API, unit tests, bug testing and keeping the schedule updated                          |
 | Tlou Pheme                  | DevOps and README    | GitHub Actions for build and tests, Azure DevOps Kanban board, repository structure and this README                 |
-
-Check-in schedule: the next check-in is Fri 9 Oct, when login, SSO and the main screens should work against the live API.
 
 ## Development
 

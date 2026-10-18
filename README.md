@@ -6,6 +6,11 @@ The Bakery Digital Management System is a software solution designed to improve 
 
 The project extends the system proposed in XISD5319 by providing a web-based interface and mobile application connected to a database.
 
+## Demo Video
+
+Watch the full demonstration of the app and website: https://youtu.be/_IyT-tbq1Rw?si=AKq-o2toBcZcYCS5
+
+
 ## Project Objectives
 
 * Digitise bakery customer and order management.

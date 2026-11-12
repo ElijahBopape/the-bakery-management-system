@@ -3,7 +3,7 @@
 // It follows the team's "How to Connect to the Backend API" guide.
 
 // 1. Server address. To switch servers you only change this ONE line.
-const API_BASE = "https://the-bakery-api-production.up.railway.app";
+const API_BASE = "https://the-bakery-api.vercel.app";
 // const API_BASE = "http://localhost:8000"; // local backend: cd backend, then uvicorn main:app --reload
 
 (function () {

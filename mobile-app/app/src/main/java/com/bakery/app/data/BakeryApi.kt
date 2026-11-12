@@ -9,7 +9,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 
-const val BAKERY_BASE_URL = "https://the-bakery-api-production.up.railway.app/"
+const val BAKERY_BASE_URL = "https://the-bakery-api.vercel.app/"
 
 interface BakeryApi {
 

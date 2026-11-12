@@ -52,9 +52,9 @@ the-bakery-management-system/
 
 ## API (Backend)
 
-Built with **Python + FastAPI**. The live API uses **PostgreSQL on Railway**. Locally it uses a SQLite file by default, or Postgres if you set `DATABASE_URL`. See [`backend/`](./backend/) for setup instructions.
+Built with **Python + FastAPI**. The live API runs on **Vercel** with a **Neon PostgreSQL** database (moved from Railway in November 2026 after the Railway trial ended). Locally it uses a SQLite file by default, or Postgres if you set `DATABASE_URL`. See [`backend/`](./backend/) for setup instructions.
 
-Base URL (live): `https://the-bakery-api-production.up.railway.app`  
+Base URL (live): `https://the-bakery-api.vercel.app`  
 Base URL (local): `http://localhost:8000`  
 Interactive docs: `http://localhost:8000/docs` (or `/docs` on the live URL)
 

@@ -2,7 +2,7 @@
 API smoke test for The Bakery backend. Standard library only (no install needed).
 
     python tests/api_smoke_test.py                                   # tests http://localhost:8000
-    python tests/api_smoke_test.py https://the-bakery-api-production.up.railway.app
+    python tests/api_smoke_test.py https://the-bakery-api.vercel.app
 
 WARNING: this test writes data. It creates a new customer account and orders, adds
 and deletes a test product, and HIDES "Caramel Frappe" at the end. Run it against a

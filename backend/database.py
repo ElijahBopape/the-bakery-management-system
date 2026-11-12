@@ -1,3 +1,15 @@
+"""
+Database connection for The Bakery API (SQLAlchemy).
+
+DATABASE_URL decides which database is used:
+  - not set           -> a local SQLite file (bakery.db), handy for development and CI
+  - postgresql://...  -> the hosted Neon PostgreSQL database (set by Vercel automatically)
+get_db() opens one session per request and always closes it afterwards.
+
+Reference: SQLAlchemy (2024) "Engine Configuration" and "Dealing with Disconnects" (pool_pre_ping),
+SQLAlchemy 2.0 documentation. Available at: https://docs.sqlalchemy.org/en/20/core/engines.html and
+https://docs.sqlalchemy.org/en/20/core/pooling.html#pool-disconnects (Accessed: 12 November 2026).
+"""
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base

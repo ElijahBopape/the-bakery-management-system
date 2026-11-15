@@ -94,6 +94,19 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         store(api.login(UserLogin(email, password)))
     }
 
+    fun googleLogin(googleToken: String, onSuccess: () -> Unit) = perform(onSuccess) {
+        val request = com.bakery.app.data.GoogleTokenRequest(googleToken)
+        val response = api.googleSignIn(request)
+
+        if (response.isSuccessful && response.body() != null) {
+            // Save the JWT token to your existing session manager
+            session.token = response.body()!!.jwtToken
+            // Fetch the user's profile to populate the app state, just like a normal login
+            user = api.me()
+        } else {
+            throw Exception("Google login failed on backend. Code: ${response.code()}")
+        }
+    }
     fun register(name: String, email: String, password: String, phone: String, onSuccess: () -> Unit) =
         perform(onSuccess) {
             store(api.register(UserRegister(name, email, password, phone.ifBlank { null })))

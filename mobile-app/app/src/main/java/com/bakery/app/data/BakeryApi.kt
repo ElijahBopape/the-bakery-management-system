@@ -8,6 +8,9 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
+import retrofit2.Response
+import retrofit2.http.Body
+import retrofit2.http.POST
 
 const val BAKERY_BASE_URL = "https://the-bakery-api.vercel.app/"
 
@@ -39,6 +42,9 @@ interface BakeryApi {
 
     @GET("orders")
     suspend fun orders(): List<OrderOut>
+
+    @POST("/auth/google")
+    suspend fun googleSignIn(@Body request: GoogleTokenRequest): Response<AuthResponse>
 }
 
 fun createBakeryApi(tokenProvider: () -> String?): BakeryApi {
@@ -64,3 +70,12 @@ fun createBakeryApi(tokenProvider: () -> String?): BakeryApi {
         .build()
         .create(BakeryApi::class.java)
 }
+data class GoogleTokenRequest(
+    val token: String
+)
+
+data class AuthResponse(
+    val jwtToken: String,
+    val userId: Int,
+    val role: String
+)

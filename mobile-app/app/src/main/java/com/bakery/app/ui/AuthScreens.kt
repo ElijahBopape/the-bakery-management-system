@@ -1,5 +1,7 @@
 package com.bakery.app.ui
 
+import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,15 +17,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.credentials.CredentialManager
+import androidx.credentials.GetCredentialRequest
 import com.bakery.app.AppViewModel
 import com.bakery.app.SessionCheck
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+
+private const val TAG = "BakeryAuth"
 
 @Composable
 fun SplashScreen(viewModel: AppViewModel, onChecked: (SessionCheck) -> Unit) {
@@ -50,6 +62,10 @@ fun LoginScreen(viewModel: AppViewModel, onSignedIn: () -> Unit, onRegister: () 
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
 
+    // Setup for Google Credential Manager
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+
     LaunchedEffect(Unit) { viewModel.clearError() }
 
     AuthLayout(
@@ -74,12 +90,23 @@ fun LoginScreen(viewModel: AppViewModel, onSignedIn: () -> Unit, onRegister: () 
             modifier = Modifier.fillMaxWidth(),
         )
         viewModel.error?.let { ErrorText(it) }
+
         LoadingButton(
             text = "Log in",
             busy = viewModel.busy,
             enabled = email.isNotBlank() && password.isNotBlank(),
             onClick = { viewModel.login(email.trim(), password, onSignedIn) },
         )
+
+        // NEW: Google Sign-In Button
+        TextButton(
+            onClick = { startGoogleSignIn(context, coroutineScope, viewModel, onSignedIn) },
+            modifier = Modifier.fillMaxWidth(),
+            enabled = !viewModel.busy // Prevents clicking if already loading
+        ) {
+            Text("Sign in with Google")
+        }
+
         TextButton(onClick = onRegister, modifier = Modifier.fillMaxWidth()) {
             Text("New here? Create an account")
         }
@@ -142,6 +169,45 @@ fun RegisterScreen(viewModel: AppViewModel, onRegistered: () -> Unit, onBack: ()
         )
         TextButton(onClick = onBack, modifier = Modifier.fillMaxWidth()) {
             Text("Already have an account? Log in")
+        }
+    }
+}
+
+// Triggers the Google Credential Manager UI and delegates to ViewModel
+private fun startGoogleSignIn(
+    context: Context,
+    coroutineScope: CoroutineScope,
+    viewModel: AppViewModel,
+    onSuccess: () -> Unit
+) {
+    Log.i(TAG, "Starting Google Sign-In flow")
+    val credentialManager = CredentialManager.create(context)
+
+    val webClientId = "866039140253-toasmpq6d40cu9f51mdmc8hs35m6d351.apps.googleusercontent.com"
+
+    val googleIdOption = GetGoogleIdOption.Builder()
+        .setFilterByAuthorizedAccounts(false)
+        .setServerClientId(webClientId)
+        .setAutoSelectEnabled(true)
+        .build()
+
+    val request = GetCredentialRequest.Builder()
+        .addCredentialOption(googleIdOption)
+        .build()
+
+    coroutineScope.launch {
+        try {
+            Log.d(TAG, "Launching Credential Manager prompt")
+            val result = credentialManager.getCredential(context, request)
+            val credential = result.credential
+
+            if (credential is GoogleIdTokenCredential) {
+                Log.i(TAG, "Google Sign-In success. Extracting token.")
+                // Pass the token to the ViewModel which handles network, loading spinner, and errors
+                viewModel.googleLogin(credential.idToken, onSuccess)
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Google Sign-In failed or cancelled", e)
         }
     }
 }

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Account — The Bakery, Polokwane</title>
+  <meta name="description" content="Sign in to The Bakery to order online and follow your orders." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Icon sprite: each icon is drawn once here and reused with <svg><use href="#icon-..."/></svg> -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="icon-whatsapp" viewBox="0 0 24 24"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></symbol>
+    <symbol id="icon-play" viewBox="0 0 24 24"><path fill="currentColor" d="M7 4.5v15l12.5-7.5z"/></symbol>
+  </svg>
+
+  <!-- Navbar (same as index.html; homepage links point to index.html#...) -->
+  <header class="navbar">
+    <nav class="nav container">
+      <a href="index.html" class="brand">
+        <svg class="icon gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.6 13.11l5.79-3.21c1.89-1.05 4.79 1.78 3.71 3.71l-3.22 5.81C8.8 23.16.79 15.23 4.6 13.11z"/><path d="M19.04 4.96a4.5 4.5 0 0 0-6.36 0l-3.66 3.66a4.5 4.5 0 0 0 6.36 6.36l3.66-3.66a4.5 4.5 0 0 0 0-6.36z"/></svg>
+        <span class="brand-text">The <span class="gold">Bakery</span></span>
+      </a>
+
+      <input type="checkbox" id="nav-toggle" class="nav-toggle" />
+
+      <ul class="nav-links">
+        <li><a href="index.html#home">Home</a></li>
+        <li><a href="index.html#menu">Our Menu</a></li>
+        <li><a href="index.html#work">Our Work</a></li>
+        <li><a href="index.html#about">About Us</a></li>
+        <li><a href="baker.html">Meet the Baker</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="account.html" class="cart-btn account-btn" data-account-link aria-current="page" aria-label="Sign in or create an account">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </a>
+        <button type="button" class="cart-btn" id="cart-open" aria-label="Open cart">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span class="cart-count" id="cart-count" aria-hidden="true">0</span>
+        </button>
+        <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle menu">
+          <svg class="icon menu-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          <svg class="icon menu-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </label>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container account-page">
+    <!-- Shown while the saved sign-in is checked with the server (SSO) -->
+    <p class="account-status" id="account-loading" role="status">Checking your sign-in…</p>
+
+    <!-- Server can't be reached -->
+    <section id="offline-view" class="panel account-offline" hidden>
+      <h1 class="section-title left">Can't reach the bakery server</h1>
+      <p class="muted" id="offline-message">Check your internet connection and try again.</p>
+      <button type="button" class="btn btn-gold" id="offline-retry">Try again</button>
+    </section>
+
+    <!-- Signed out: sign in or create an account (POST /auth/login, POST /auth/register) -->
+    <section id="auth-view" hidden aria-labelledby="auth-title">
+      <div class="section-head">
+        <p class="eyebrow">Your account</p>
+        <h1 id="auth-title" class="section-title">Sign in to order</h1>
+        <p class="section-sub">Order online and follow your order from the oven to your hands.</p>
+      </div>
+
+      <div class="panel auth-panel">
+        <div class="auth-tabs" role="tablist" aria-label="Sign in or create an account">
+          <button type="button" role="tab" id="tab-login" aria-selected="true" aria-controls="login-form">Sign in</button>
+          <button type="button" role="tab" id="tab-register" aria-selected="false" aria-controls="register-form" tabindex="-1">Create account</button>
+        </div>
+
+        <form id="login-form" role="tabpanel" aria-labelledby="tab-login" novalidate>
+          <div class="field"><label for="login-email">Email</label><input id="login-email" type="email" autocomplete="email" required /></div>
+          <div class="field"><label for="login-password">Password</label><input id="login-password" type="password" autocomplete="current-password" required /></div>
+          <p class="form-error" id="login-error" role="alert"></p>
+          <button type="submit" class="btn btn-gold full">Sign in</button>
+        </form>
+
+        <form id="register-form" role="tabpanel" aria-labelledby="tab-register" hidden novalidate>
+          <div class="field"><label for="register-name">Full name</label><input id="register-name" type="text" autocomplete="name" maxlength="100" required /></div>
+          <div class="field"><label for="register-email">Email</label><input id="register-email" type="email" autocomplete="email" maxlength="150" required /></div>
+          <div class="field"><label for="register-phone">Phone (optional)</label><input id="register-phone" type="tel" autocomplete="tel" maxlength="20" placeholder="e.g. 081 234 5678" /></div>
+          <div class="field"><label for="register-password">Password (at least 6 characters)</label><input id="register-password" type="password" autocomplete="new-password" minlength="6" required /></div>
+          <p class="form-error" id="register-error" role="alert"></p>
+          <button type="submit" class="btn btn-gold full">Create account</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Signed in: profile (GET /auth/sso) + order history (GET /orders) -->
+    <section id="account-view" hidden aria-labelledby="account-title">
+      <div class="account-head">
+        <div>
+          <p class="eyebrow">Your account</p>
+          <h1 id="account-title" class="section-title left">Hello, <span id="account-name"></span></h1>
+          <p class="muted" id="account-details"></p>
+        </div>
+        <div class="account-actions">
+          <a href="admin.html" class="btn btn-gold" id="admin-link" hidden>Open admin dashboard</a>
+          <a href="index.html#menu" class="btn btn-outline">Order from the menu</a>
+          <button type="button" class="btn btn-outline" id="logout-btn">Sign out</button>
+        </div>
+      </div>
+
+      <section id="orders" class="panel" aria-labelledby="orders-title">
+        <div class="orders-head">
+          <h2 id="orders-title">My orders</h2>
+          <button type="button" class="text-button" id="orders-refresh">Refresh</button>
+        </div>
+        <p class="account-status" id="orders-status" role="status">Loading your orders…</p>
+        <ol class="order-list" id="order-list"></ol>
+      </section>
+    </section>
+  </main>
+
+  <!-- Footer (same as index.html) -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="brand">
+        <svg class="icon gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.6 13.11l5.79-3.21c1.89-1.05 4.79 1.78 3.71 3.71l-3.22 5.81C8.8 23.16.79 15.23 4.6 13.11z"/><path d="M19.04 4.96a4.5 4.5 0 0 0-6.36 0l-3.66 3.66a4.5 4.5 0 0 0 6.36 6.36l3.66-3.66a4.5 4.5 0 0 0 0-6.36z"/></svg>
+        <span class="brand-text">The <span class="gold">Bakery</span></span>
+      </div>
+      <div class="footer-contact">
+        <span><svg class="icon-sm gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> 65 Market Street, Polokwane</span>
+        <span><svg class="icon-sm gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg> 081 358 6602</span>
+        <a href="https://wa.me/27813586602" target="_blank" rel="noopener"><svg class="icon-sm gold" aria-hidden="true"><use href="#icon-whatsapp" /></svg> WhatsApp us</a>
+      </div>
+      <p class="copyright">© 2026 The Bakery. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Cart Drawer (same as index.html) -->
+  <div class="cart-overlay" id="cart-overlay" hidden></div>
+  <aside class="cart-drawer" id="cart-drawer" aria-label="Shopping cart" aria-hidden="true">
+    <div class="cart-head">
+      <div class="panel-head" style="margin:0">
+        <svg class="icon gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <h3>Your Cart</h3>
+      </div>
+      <button type="button" class="cart-close" id="cart-close" aria-label="Close cart">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <p class="cart-notice">
+      <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      <span id="cart-notice-text">Sign in or create an account to order online, or send your order on WhatsApp.</span>
+    </p>
+
+    <div class="cart-items" id="cart-items">
+      <p class="cart-empty" id="cart-empty">Your cart is empty. Add something delicious from the <a href="index.html#menu" class="text-link">menu</a>.</p>
+    </div>
+
+    <div class="cart-foot">
+      <div class="cart-subtotal">
+        <span>Subtotal</span>
+        <span class="cart-total gold" id="cart-total">R0</span>
+      </div>
+      <!-- Optional details sent with the order (POST /orders) -->
+      <div class="cart-fields" id="cart-fields" hidden>
+        <div class="field"><label for="cart-address">Delivery address (optional)</label><input id="cart-address" type="text" autocomplete="street-address" maxlength="200" placeholder="e.g. 12 Main St, Polokwane" /></div>
+        <div class="field"><label for="cart-notes">Note for the baker (optional)</label><input id="cart-notes" type="text" maxlength="200" placeholder="e.g. Message on the cake" /></div>
+      </div>
+      <p class="cart-message" id="cart-message" role="alert"></p>
+      <button type="button" class="btn btn-gold full" id="cart-checkout">Place order</button>
+      <a class="btn btn-outline full cart-whatsapp" id="cart-whatsapp" href="https://wa.me/27813586602" target="_blank" rel="noopener" hidden>
+        <svg class="icon-sm" aria-hidden="true"><use href="#icon-whatsapp" /></svg>
+        Order on WhatsApp instead
+      </a>
+    </div>
+  </aside>
+
+  <!-- Floating WhatsApp button (on every public page) -->
+  <a href="https://wa.me/27813586602" class="whatsapp-float" target="_blank" rel="noopener" aria-label="Chat with The Bakery on WhatsApp">
+    <svg aria-hidden="true"><use href="#icon-whatsapp" /></svg>
+  </a>
+
+  <script src="api.js"></script>
+  <script src="cart.js"></script>
+  <script src="account.js"></script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+name: Web CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'bake/**'
+      - '.github/workflows/web.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'bake/**'
+      - '.github/workflows/web.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: web-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Lint HTML & JavaScript
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: bake
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Plain browser scripts (no package.json), so syntax-check each file.
+      - name: JavaScript syntax check
+        run: |
+          for f in *.js; do
+            echo "Checking $f"
+            node --check "$f"
+          done
+
+      - name: HTMLHint
+        run: npx --yes htmlhint@1.1.4 "*.html"

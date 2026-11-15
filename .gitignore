@@ -29,3 +29,14 @@ dist/
 build/
 *.apk
 *.aab
+
+# Original phone/TikTok video files (web copies live in bake/videos/)
+bake/videos/originals/
+
+# Vercel CLI link folder
+.vercel/
+
+# Android signing secrets (never commit)
+keystore.properties
+*.jks
+*.keystore

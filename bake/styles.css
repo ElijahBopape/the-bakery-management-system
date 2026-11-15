@@ -15,6 +15,14 @@
   --primary-foreground: #1a1410;
   --destructive: #e06a52;
   --destructive-soft: rgba(224, 106, 82, 0.15);
+  --band: rgba(26, 22, 19, 0.4);        /* tinted full-width section background */
+  --overlay: rgba(10, 8, 7, 0.94);      /* lightbox background */
+  --shadow: rgba(0, 0, 0, 0.45);
+  --whatsapp: #25d366;                  /* WhatsApp brand green */
+  --whatsapp-hover: #1ebe5b;
+  --on-whatsapp: #ffffff;
+  --success: #7ccf95;                   /* "ready" order status */
+  --success-soft: rgba(124, 207, 149, 0.14);
   --radius: 0.7rem;
 }
 
@@ -80,6 +88,7 @@ img { display: block; max-width: 100%; }
 }
 .btn-outline:hover { border-color: var(--gold-border); color: var(--gold); }
 .btn.full { width: 100%; }
+.btn:disabled { opacity: 0.55; cursor: not-allowed; }
 
 /* Navbar */
 .navbar {
@@ -233,7 +242,7 @@ img { display: block; max-width: 100%; }
 }
 
 /* About */
-.about { border-top: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft); background: rgba(26, 22, 19, 0.4); }
+.about { border-top: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft); background: var(--band); }
 .about-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -570,4 +579,490 @@ tbody tr:last-child td { border-bottom: 0; }
   .nav-toggle:checked ~ .nav-links { display: flex; }
   .nav-toggle:checked ~ .nav-actions .nav-toggle-label .menu-open { display: none; }
   .nav-toggle:checked ~ .nav-actions .nav-toggle-label .menu-close { display: block; }
+}
+
+/* =========================================================
+   Shared helpers (index.html + baker.html)
+   ========================================================= */
+.nav-links a[aria-current="page"] { color: var(--gold); }
+@media (min-width: 768px) and (max-width: 1023px) {
+  .nav-links { gap: 1.25rem; } /* five links need a little less space on tablets */
+}
+
+.section-sub {
+  margin: 1rem auto 0;
+  max-width: 36rem;
+  color: var(--muted-foreground);
+  text-wrap: pretty;
+}
+.section-cta { margin-top: 2.5rem; text-align: center; }
+.section.follows-section { padding-top: 0; } /* directly after another .section: skip the doubled gap */
+.band { border-top: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft); background: var(--band); }
+.btn-lg { padding: 1rem 2rem; font-size: 1rem; }
+.text-link { color: var(--gold); font-weight: 600; transition: color 0.2s; }
+.text-link:hover { color: var(--gold-muted); text-decoration: underline; }
+
+/* Hidden visually, still read by screen readers */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+/* [Placeholders] the owner still needs to confirm, easy to spot on the page */
+.placeholder {
+  display: inline-block;
+  padding: 0 0.4rem;
+  border: 1px dashed var(--gold-border);
+  border-radius: 0.3rem;
+  background: var(--gold-soft);
+  color: var(--gold);
+  font-size: 0.85em;
+  font-weight: 500;
+}
+
+/* =========================================================
+   WhatsApp: floating button + small extras
+   ========================================================= */
+.whatsapp-float {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 55; /* above the page, below the cart drawer (60/70) */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 999px;
+  background: var(--whatsapp);
+  color: var(--on-whatsapp);
+  box-shadow: 0 0.5rem 1.5rem var(--shadow);
+  transition: background-color 0.2s, transform 0.2s;
+}
+.whatsapp-float:hover { background: var(--whatsapp-hover); transform: scale(1.06); }
+.whatsapp-float svg { width: 1.75rem; height: 1.75rem; }
+.footer-contact a { display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; transition: color 0.2s; }
+.footer-contact a:hover { color: var(--gold); }
+@media (max-width: 767px) {
+  .footer { padding-bottom: 4.5rem; } /* keep the floating button off the footer text */
+}
+
+/* =========================================================
+   This Week's Special (index.html)
+   ========================================================= */
+.special { padding-bottom: 0; }
+.special-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  gap: 2rem;
+  padding: 2.25rem 1.5rem 1.75rem;
+  border: 1px solid var(--gold-border);
+  border-radius: 0.75rem;
+  background: var(--card);
+}
+.special-badge {
+  position: absolute;
+  top: 0;
+  left: 1.5rem;
+  transform: translateY(-50%);
+  padding: 0.3rem 0.9rem;
+  border-radius: 999px;
+  background: var(--gold);
+  color: var(--primary-foreground);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+.special-img-btn {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 22rem;
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background: none;
+  cursor: zoom-in;
+  transition: border-color 0.2s;
+}
+.special-img-btn:hover { border-color: var(--gold-border); }
+.special-img-btn img { width: 100%; height: auto; }
+.zoom-hint {
+  position: absolute;
+  right: 0.6rem;
+  bottom: 0.6rem;
+  padding: 0.3rem 0.75rem;
+  border: 1px solid var(--gold-border);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--gold);
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+.special-deal { margin-top: 1rem; color: var(--muted-foreground); font-size: 1.05rem; }
+.special-deal strong { color: var(--gold); font-family: "Playfair Display", Georgia, serif; font-size: 1.35rem; }
+.special-body .btn { margin-top: 1.75rem; }
+
+/* =========================================================
+   Video cards + lightbox (videos.js), used on both pages
+   ========================================================= */
+.video-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+.video-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: var(--card);
+  color: var(--foreground);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.video-card:hover { border-color: var(--gold-border); }
+.video-card:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+/* Every card has the same shape. object-fit: cover crops portrait (9:16) and
+   landscape clips to fit, so there are never black bars on the cards. */
+.video-thumb {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: var(--muted);
+}
+.video-thumb img,
+.video-preview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.video-preview { opacity: 0; transition: opacity 0.3s; }
+.video-preview.is-playing { opacity: 1; }
+.video-thumb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, var(--card), transparent 35%);
+  pointer-events: none;
+}
+.play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 999px;
+  background: var(--gold);
+  color: var(--primary-foreground);
+  box-shadow: 0 0.5rem 1.5rem var(--shadow);
+  transform: translate(-50%, -50%);
+  transition: transform 0.2s, background-color 0.2s;
+}
+.play-btn svg { width: 1.35rem; height: 1.35rem; margin-left: 0.2rem; } /* nudge so the triangle looks centred */
+.video-card:hover .play-btn,
+.video-card:focus-visible .play-btn { transform: translate(-50%, -50%) scale(1.08); }
+.video-caption {
+  display: block;
+  padding: 0.9rem 1.25rem 1.2rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.video-card:hover .video-caption { color: var(--gold); }
+
+/* Big portrait card at the top of baker.html */
+.video-card.feature .video-thumb { aspect-ratio: 9 / 16; }
+.video-card.feature .play-btn { width: 4.5rem; height: 4.5rem; }
+
+/* Lightbox: a full-screen <dialog> */
+html.lightbox-open { overflow: hidden; } /* stop the page scrolling behind it */
+.lightbox {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 4rem 1rem 1rem; /* room at the top for the close button */
+  border: 0;
+  overflow: auto;
+  background: var(--overlay);
+  color: var(--foreground);
+}
+.lightbox[open] { display: flex; align-items: center; justify-content: center; }
+.lightbox::backdrop { background: transparent; }
+.lightbox-close {
+  position: fixed;
+  top: 0.9rem;
+  right: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--foreground);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.lightbox-close:hover { border-color: var(--gold-border); color: var(--gold); }
+.lightbox-close:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.lightbox-figure { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; max-width: 100%; }
+.lightbox-media {
+  display: block;
+  max-width: calc(100vw - 2rem);
+  max-height: calc(100vh - 8.5rem);
+  max-height: calc(100dvh - 8.5rem); /* dvh = the visible height on phones */
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: var(--background);
+}
+.lightbox-media[hidden] { display: none; }
+/* Videos are sized to the screen height; "contain" shows the whole frame */
+.lightbox video.lightbox-media {
+  width: auto;
+  height: calc(100vh - 8.5rem);
+  height: calc(100dvh - 8.5rem);
+  object-fit: contain;
+}
+.lightbox img.lightbox-media { width: auto; height: auto; }
+.lightbox-caption { max-width: 30rem; color: var(--muted-foreground); font-size: 0.9rem; text-align: center; }
+@media (prefers-reduced-motion: no-preference) {
+  .lightbox[open] { animation: lightbox-in 0.2s ease-out; }
+}
+@keyframes lightbox-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* Grid: 1 column on phones, 2 on tablets, 3 (or 4) on desktop */
+@media (min-width: 640px) {
+  .video-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1024px) {
+  .video-grid { grid-template-columns: repeat(3, 1fr); }
+  .video-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* =========================================================
+   Meet the Baker & Lessons (baker.html)
+   ========================================================= */
+.baker-hero {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  gap: 2.5rem;
+  padding-top: 3.5rem;
+  padding-bottom: 4rem;
+}
+.baker-hero .video-card { max-width: 20rem; margin: 0 auto; }
+.baker-name { font-size: clamp(2.25rem, 6vw, 3.5rem); font-weight: 800; }
+.baker-role { margin-top: 0.5rem; color: var(--gold); font-weight: 600; }
+.baker-intro { margin-top: 1.25rem; max-width: 34rem; color: var(--muted-foreground); font-size: 1.05rem; text-wrap: pretty; }
+.baker-hero .hero-actions { margin-top: 2rem; }
+
+.story { max-width: 42rem; margin: 0 auto; }
+.story p { color: var(--muted-foreground); font-size: 1.05rem; text-wrap: pretty; }
+.story p + p { margin-top: 1.25rem; }
+.story .featured-in {
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border-soft);
+  font-size: 0.85rem;
+}
+
+.lesson-videos-label { margin-bottom: 1.25rem; color: var(--muted-foreground); font-size: 0.9rem; text-align: center; }
+.lesson-videos { display: grid; grid-template-columns: 1fr; gap: 1.5rem; max-width: 44rem; margin: 0 auto; }
+
+/* Photos: a clickable picture that opens full size in the lightbox (videos.js) */
+.photo-btn {
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: none;
+  cursor: zoom-in;
+  transition: border-color 0.2s;
+}
+.photo-btn:hover { border-color: var(--gold-border); }
+.photo-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.photo-btn img { width: 100%; height: auto; }
+.lessons-photo { max-width: 44rem; margin: 2.5rem auto 0; }
+.lessons-photo figcaption { margin-top: 0.75rem; color: var(--muted-foreground); font-size: 0.9rem; text-align: center; }
+.play-btn.photo-icon svg { width: 1.2rem; height: 1.2rem; margin-left: 0; } /* expand icon, no play-triangle nudge */
+.about-img-top { object-position: center top; } /* keep the shop logo in view when the photo is cropped */
+.offer-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 3.5rem; }
+.offer-grid .panel p { color: var(--muted-foreground); font-size: 0.95rem; }
+.offer-grid .panel p + p { margin-top: 0.75rem; }
+
+.book-title { margin-top: 4rem; font-size: 1.5rem; font-weight: 700; text-align: center; }
+.steps { list-style: none; display: grid; grid-template-columns: 1fr; gap: 1rem; margin-top: 1.5rem; }
+.step {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border-soft);
+  border-radius: 0.75rem;
+  background: var(--card-soft);
+  font-weight: 500;
+}
+.step-num {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--gold-border);
+  border-radius: 999px;
+  background: var(--gold-soft);
+  color: var(--gold);
+  font-weight: 700;
+}
+.book-cta { margin-top: 2.5rem; text-align: center; }
+.book-note { margin-top: 1rem; color: var(--muted-foreground); font-size: 0.9rem; }
+.book-note a { color: var(--gold); font-weight: 600; }
+.book-note a:hover { text-decoration: underline; }
+
+/* FAQ built from <details>/<summary> */
+.faq { display: flex; flex-direction: column; gap: 0.75rem; max-width: 46rem; margin: 0 auto; }
+.faq details {
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: var(--card);
+  transition: border-color 0.2s;
+}
+.faq details[open] { border-color: var(--gold-border); }
+.faq summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+  transition: color 0.2s;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; color: var(--gold); font-size: 1.35rem; line-height: 1; }
+.faq details[open] summary::after { content: "\2212"; } /* minus sign */
+.faq summary:hover { color: var(--gold); }
+.faq summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 0.75rem; }
+.faq details p { padding: 0 1.25rem 1.25rem; color: var(--muted-foreground); font-size: 0.95rem; }
+
+@media (min-width: 640px) {
+  .lesson-videos { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 768px) {
+  .special-card { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 3rem; padding: 2.5rem; }
+  .baker-hero { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 4rem; padding-top: 5rem; padding-bottom: 6rem; }
+  .offer-grid { grid-template-columns: repeat(3, 1fr); }
+  .steps { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* =========================================================
+   Backend connection: account icon, cart checkout, account page
+   ========================================================= */
+[hidden] { display: none !important; } /* so "hidden" also works on .btn and other flex items */
+
+.account-btn.signed-in { border-color: var(--gold-border); color: var(--gold); }
+.text-button { border: 0; padding: 0; background: none; color: var(--gold); font: inherit; font-size: 0.85rem; font-weight: 600; cursor: pointer; }
+.text-button:hover { text-decoration: underline; }
+.menu-status { grid-column: 1 / -1; color: var(--muted-foreground); text-align: center; }
+
+/* Cart checkout */
+.cart-fields .field { margin-bottom: 0.75rem; }
+.cart-message { min-height: 0; font-size: 0.8rem; color: var(--gold); }
+.cart-message:not(:empty) { margin-bottom: 0.75rem; }
+.cart-message.error { color: var(--destructive); }
+.cart-whatsapp { margin-top: 0.6rem; }
+.cart-success {
+  padding: 1.25rem;
+  border: 1px solid var(--gold-border);
+  border-radius: 0.75rem;
+  background: var(--gold-soft);
+  font-size: 0.9rem;
+  color: var(--muted-foreground);
+}
+.cart-success-title { margin-bottom: 0.4rem; color: var(--gold); font-family: "Playfair Display", Georgia, serif; font-size: 1.2rem; font-weight: 700; }
+.cart-success .btn { margin-top: 1rem; }
+
+/* Account page */
+.account-page { min-height: 60vh; padding-top: 3.5rem; padding-bottom: 5rem; }
+.account-status { color: var(--muted-foreground); text-align: center; padding: 2rem 0; }
+.account-offline { max-width: 32rem; margin: 0 auto; }
+.account-offline .btn { margin-top: 1.25rem; }
+.auth-panel { max-width: 28rem; margin: 0 auto; }
+.auth-tabs { display: flex; gap: 0.35rem; margin-bottom: 1.5rem; padding: 0.3rem; border: 1px solid var(--border); border-radius: 0.6rem; background: var(--input); }
+.auth-tabs button {
+  flex: 1;
+  padding: 0.55rem 0.75rem;
+  border: 0;
+  border-radius: 0.4rem;
+  background: none;
+  color: var(--muted-foreground);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.auth-tabs button[aria-selected="true"] { background: var(--gold); color: var(--primary-foreground); }
+.form-error { min-height: 1.25rem; margin-bottom: 0.75rem; color: var(--destructive); font-size: 0.8rem; }
+
+.account-head { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 2rem; }
+.account-head .muted { margin-top: 0.5rem; font-size: 0.9rem; }
+.account-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.orders-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+.orders-head h2 { font-size: 1.35rem; }
+
+.order-list { list-style: none; display: grid; gap: 1rem; }
+.order-card { padding: 1.25rem; border: 1px solid var(--border-soft); border-radius: 0.75rem; background: var(--input); }
+.order-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.order-id { font-family: "Playfair Display", Georgia, serif; font-size: 1.1rem; font-weight: 700; }
+.order-meta { margin-top: 0.35rem; color: var(--muted-foreground); font-size: 0.85rem; }
+.order-items { margin-top: 0.75rem; padding-left: 1.1rem; font-size: 0.9rem; }
+.order-items .muted { font-size: 0.8rem; }
+
+/* Order status badge + progress (pending → confirmed → preparing → ready → delivered) */
+.status-badge { padding: 0.2rem 0.65rem; border: 1px solid var(--gold-border); border-radius: 999px; background: var(--gold-soft); color: var(--gold); font-size: 0.75rem; font-weight: 600; white-space: nowrap; }
+.status-ready { border-color: var(--success); background: var(--success-soft); color: var(--success); }
+.status-delivered { border-color: var(--border); background: transparent; color: var(--muted-foreground); }
+.status-cancelled { border-color: var(--destructive); background: var(--destructive-soft); color: var(--destructive); }
+.order-progress { list-style: none; display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.3rem; margin-top: 0.9rem; }
+.order-progress li {
+  padding-top: 0.45rem;
+  border-top: 3px solid var(--border);
+  color: var(--muted-foreground);
+  font-size: 0.65rem;
+  text-align: center;
+}
+.order-progress li.done { border-top-color: var(--gold); color: var(--foreground); }
+
+@media (min-width: 768px) {
+  .account-head { flex-direction: row; align-items: flex-end; justify-content: space-between; }
+  .order-progress li { font-size: 0.72rem; }
+}
+
+/* Respect "reduce motion": no animated transitions (hover previews are skipped in videos.js) */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .btn, .video-card, .video-caption, .video-preview, .play-btn, .special-img-btn, .photo-btn,
+  .whatsapp-float, .cart-drawer, .faq details { transition: none; }
+  .video-card:hover .play-btn,
+  .video-card:focus-visible .play-btn { transform: translate(-50%, -50%); }
+  .whatsapp-float:hover { transform: none; }
 }

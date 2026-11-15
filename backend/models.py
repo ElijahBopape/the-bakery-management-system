@@ -1,3 +1,15 @@
+"""
+Database tables for The Bakery (SQLAlchemy ORM models).
+
+  users        customers and staff (role = customer | admin); password_hash only, never passwords
+  categories   menu groups (Frappes, Cakes, Drinks & Extras)
+  products     menu items with price and is_available (hidden items stay linked to old orders)
+  orders       one per checkout: customer, total, status, delivery address, notes
+  order_items  the lines of an order, with the unit_price paid at the time of ordering
+
+Relationships: a category has many products; a user has many orders; an order has many
+order_items; each order_item points to one product.
+"""
 from sqlalchemy import Column, Integer, String, Float, Boolean, ForeignKey, DateTime, Text, Enum
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func

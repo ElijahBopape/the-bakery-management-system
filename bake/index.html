@@ -17,6 +17,12 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <!-- Icon sprite: each icon is drawn once here and reused with <svg><use href="#icon-..."/></svg> -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="icon-whatsapp" viewBox="0 0 24 24"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></symbol>
+    <symbol id="icon-play" viewBox="0 0 24 24"><path fill="currentColor" d="M7 4.5v15l12.5-7.5z"/></symbol>
+  </svg>
+
   <!-- Navbar -->
   <header class="navbar">
     <nav class="nav container">
@@ -30,11 +36,15 @@
       <ul class="nav-links">
         <li><a href="#home">Home</a></li>
         <li><a href="#menu">Our Menu</a></li>
+        <li><a href="#work">Our Work</a></li>
         <li><a href="#about">About Us</a></li>
-        
+        <li><a href="baker.html">Meet the Baker</a></li>
       </ul>
 
       <div class="nav-actions">
+        <a href="account.html" class="cart-btn account-btn" data-account-link aria-label="Sign in or create an account">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </a>
         <button type="button" class="cart-btn" id="cart-open" aria-label="Open cart">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
           <span class="cart-count" id="cart-count" aria-hidden="true">0</span>
@@ -68,6 +78,41 @@
         </div>
       </div>
     </section>
+
+    <!-- ===================================================================
+         WEEKLY SPECIAL: replace image0 and the text below to update
+         1. Put the new picture in images/ (and a .webp copy if you can make one)
+         2. Update both image paths, the width/height, the alt text,
+            data-caption, the eyebrow, the headline and the deal line
+         =================================================================== -->
+    <section id="special" class="container section special" aria-labelledby="special-title">
+      <div class="special-card">
+        <span class="special-badge">Special</span>
+
+        <!-- Clicking the poster opens it full size in the lightbox (videos.js) -->
+        <button type="button" class="special-img-btn" data-lightbox-image
+          data-caption="Breakfast from R70, Monday to Saturday, 7:00 to 12:00"
+          aria-label="View the breakfast special poster full size">
+          <picture>
+            <source srcset="images/image0.webp" type="image/webp" />
+            <img src="images/image0.jpeg" width="1054" height="1492"
+              alt="Breakfast special poster from The Bakery, 65 Market Street: toast, bacon, a grilled tomato, two fried eggs and butter, with a coffee. Breakfast from R70, Monday to Saturday, 7:00 to 12:00." />
+          </picture>
+          <span class="zoom-hint" aria-hidden="true">View full size</span>
+        </button>
+
+        <div class="special-body">
+          <p class="eyebrow">Monday – Saturday special</p>
+          <h2 id="special-title" class="section-title left">Breakfast at The Bakery</h2>
+          <p class="special-deal">Breakfast from <strong>R70</strong>, Monday to Saturday, 7:00 – 12:00.</p>
+          <a class="btn btn-gold" href="https://wa.me/27813586602?text=Hi!%20I'd%20like%20to%20order%20the%20special%20I%20saw%20on%20your%20website." target="_blank" rel="noopener">
+            <svg class="icon-sm" aria-hidden="true"><use href="#icon-whatsapp" /></svg>
+            Order this special on WhatsApp
+          </a>
+        </div>
+      </div>
+    </section>
+    <!-- END WEEKLY SPECIAL -->
 
     <!-- Menu -->
     <section id="menu" class="container section">
@@ -176,11 +221,64 @@
       </div>
     </section>
 
+    <!-- Our Work: showcase videos. Cards open in the lightbox from videos.js.
+         The video file only loads when a card is clicked; the poster is all that loads before. -->
+    <section id="work" class="container section follows-section">
+      <div class="section-head">
+        <p class="eyebrow">Made by hand</p>
+        <h2 class="section-title">Our Work</h2>
+        <p class="section-sub">A peek into the kitchen — every bake is made by hand, from scratch.</p>
+      </div>
+
+      <div class="video-grid cols-4">
+        <button type="button" class="video-card" data-video="videos/work-birthday-cakes.mp4" aria-label="Play video: birthday cakes with fresh flowers and gold details">
+          <span class="video-thumb">
+            <img src="videos/posters/work-birthday-cakes.webp" alt="" width="320" height="568" loading="lazy" />
+            <span class="play-btn" aria-hidden="true"><svg><use href="#icon-play" /></svg></span>
+          </span>
+          <span class="video-caption">Birthday cakes with fresh flowers</span>
+        </button>
+
+        <button type="button" class="video-card" data-video="videos/work-lengwinya-burger.mp4" aria-label="Play video: building the Lengwinya burger">
+          <span class="video-thumb">
+            <img src="videos/posters/work-lengwinya-burger.webp" alt="" width="320" height="568" loading="lazy" />
+            <span class="play-btn" aria-hidden="true"><svg><use href="#icon-play" /></svg></span>
+          </span>
+          <span class="video-caption">The Lengwinya burger</span>
+        </button>
+
+        <button type="button" class="video-card" data-video="videos/work-frappes-and-cakes.mp4" aria-label="Play video: frappes, cakes and a look around the shop">
+          <span class="video-thumb">
+            <img src="videos/posters/work-frappes-and-cakes.webp" alt="" width="320" height="568" loading="lazy" />
+            <span class="play-btn" aria-hidden="true"><svg><use href="#icon-play" /></svg></span>
+          </span>
+          <span class="video-caption">Frappes, cakes and a look around the shop</span>
+        </button>
+
+        <button type="button" class="video-card" data-video="videos/work-chocolate-loaf-and-frappe.mp4" aria-label="Play video: a chocolate loaf and a frappe at the counter">
+          <span class="video-thumb">
+            <img src="videos/posters/work-chocolate-loaf-and-frappe.webp" alt="" width="320" height="568" loading="lazy" />
+            <span class="play-btn" aria-hidden="true"><svg><use href="#icon-play" /></svg></span>
+          </span>
+          <span class="video-caption">Chocolate loaf and a frappe</span>
+        </button>
+      </div>
+
+      <div class="section-cta">
+        <a href="baker.html#work" class="btn btn-outline">See more of her work →</a>
+      </div>
+    </section>
+
     <!-- About -->
     <section id="about" class="about">
       <div class="container about-grid">
         <div class="about-img-wrap">
-          <img src="images/about-interior.png" alt="The cozy interior of The Bakery" class="about-img" />
+          <!-- The real shop window at 65 Market Street (the previous picture was images/about-interior.png) -->
+          <picture>
+            <source srcset="images/shop-window.webp" type="image/webp" />
+            <img src="images/shop-window.jpg" width="1200" height="1152" loading="lazy" class="about-img about-img-top"
+              alt="The Bakery's shop window at 65 Market Street: the gold Bakery @65 Market Street logo above a white decal of two women having coffee at a café table." />
+          </picture>
         </div>
         <div>
           <p class="eyebrow">Our Story</p>
@@ -191,6 +289,11 @@
             crafted with care, served in a warm, welcoming space designed to feel
             like home.
           </p>
+          <!-- Lessons teaser: links to the lessons section on the baker page -->
+          <p class="about-text">
+            Our founder, Judith, also gives baking lessons.
+            <a href="baker.html#lessons" class="text-link">Meet the baker &amp; book a lesson →</a>
+          </p>
           <div class="contact-list">
             <div class="contact-row">
               <svg class="icon gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -200,8 +303,12 @@
               <svg class="icon gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
               <a href="tel:0813586602">081 358 6602</a>
             </div>
+            <div class="contact-row">
+              <svg class="icon gold" aria-hidden="true"><use href="#icon-whatsapp" /></svg>
+              <a href="https://wa.me/27813586602" target="_blank" rel="noopener">Chat with us on WhatsApp</a>
+            </div>
           </div>
-          <a href="https://www.tiktok.com" target="_blank" rel="noreferrer" class="btn btn-gold tiktok">
+          <a href="https://www.tiktok.com/@judyscakes.mariri" target="_blank" rel="noreferrer" class="btn btn-gold tiktok">
             <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
             Follow us on TikTok
           </a>
@@ -278,6 +385,7 @@
       <div class="footer-contact">
         <span><svg class="icon-sm gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> 65 Market Street, Polokwane</span>
         <span><svg class="icon-sm gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg> 081 358 6602</span>
+        <a href="https://wa.me/27813586602" target="_blank" rel="noopener"><svg class="icon-sm gold" aria-hidden="true"><use href="#icon-whatsapp" /></svg> WhatsApp us</a>
       </div>
       <p class="copyright">© 2026 The Bakery. All rights reserved.</p>
     </div>
@@ -297,8 +405,8 @@
     </div>
 
     <p class="cart-notice">
-      <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      Demo only — no real orders are placed
+      <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      <span id="cart-notice-text">Sign in or create an account to order online, or send your order on WhatsApp.</span>
     </p>
 
     <div class="cart-items" id="cart-items">
@@ -310,11 +418,28 @@
         <span>Subtotal</span>
         <span class="cart-total gold" id="cart-total">R0</span>
       </div>
-      <button type="button" class="btn btn-gold full" id="cart-checkout">Checkout</button>
+      <!-- Optional details sent with the order (POST /orders) -->
+      <div class="cart-fields" id="cart-fields" hidden>
+        <div class="field"><label for="cart-address">Delivery address (optional)</label><input id="cart-address" type="text" autocomplete="street-address" maxlength="200" placeholder="e.g. 12 Main St, Polokwane" /></div>
+        <div class="field"><label for="cart-notes">Note for the baker (optional)</label><input id="cart-notes" type="text" maxlength="200" placeholder="e.g. Message on the cake" /></div>
+      </div>
+      <p class="cart-message" id="cart-message" role="alert"></p>
+      <button type="button" class="btn btn-gold full" id="cart-checkout">Place order</button>
+      <a class="btn btn-outline full cart-whatsapp" id="cart-whatsapp" href="https://wa.me/27813586602" target="_blank" rel="noopener" hidden>
+        <svg class="icon-sm" aria-hidden="true"><use href="#icon-whatsapp" /></svg>
+        Order on WhatsApp instead
+      </a>
     </div>
   </aside>
 
+  <!-- Floating WhatsApp button (on every public page) -->
+  <a href="https://wa.me/27813586602" class="whatsapp-float" target="_blank" rel="noopener" aria-label="Chat with The Bakery on WhatsApp">
+    <svg aria-hidden="true"><use href="#icon-whatsapp" /></svg>
+  </a>
+
+  <script src="api.js"></script>
   <script src="cart.js"></script>
   <script src="public-menu.js"></script>
+  <script src="videos.js"></script>
 </body>
 </html>

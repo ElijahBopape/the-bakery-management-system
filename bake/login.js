@@ -2,7 +2,7 @@
   "use strict";
 
   // ===== CHANGE THESE TWO LINES =====
-  var API_BASE = "http://localhost:8000";   // your Railway URL once deployed, e.g. "https://your-app.up.railway.app"
+  var API_BASE = "https://the-bakery-management-system-production.up.railway.app";   // your Railway URL once deployed, e.g. "https://your-app.up.railway.app"
   var GOOGLE_CLIENT_ID = "184093230182-lki408sm2dr93de6s47kd66t283duhma.apps.googleusercontent.com";
   // ==================================
 

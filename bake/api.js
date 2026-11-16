@@ -4,7 +4,6 @@
 
 // 1. Server address. To switch servers you only change this ONE line.
 const API_BASE = "https://the-bakery-management-system-production.up.railway.app";
-// const API_BASE = "https://the-bakery-api.vercel.app"; // old Vercel + Neon server (no Google sign-in)
 // const API_BASE = "http://localhost:8000"; // local backend: cd backend, then uvicorn main:app --reload
 
 // Google sign-in (the "Continue with Google" button on account.html).

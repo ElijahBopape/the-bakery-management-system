@@ -57,21 +57,27 @@ Authorization: Bearer <token>
 | `SECRET_KEY` | JWT signing secret (change in production) |
 | `ALGORITHM` | Always `HS256` |
 | `ACCESS_TOKEN_EXPIRE_DAYS` | Token lifetime (default 7) |
-| `DATABASE_URL` | SQLite locally; on Vercel the Neon integration sets this automatically for PostgreSQL |
+| `DATABASE_URL` | SQLite locally; on Railway the PostgreSQL database sets this automatically |
+| `GOOGLE_CLIENT_ID` | Google OAuth client ID used to check Google sign-in tokens (`POST /auth/google`) |
 
-## Deployment (Vercel + Neon)
+## Deployment (Railway)
 
-Live URL: https://the-bakery-api.vercel.app (docs at `/docs`)
+Live URL: https://the-bakery-management-system-production.up.railway.app (docs at `/docs`)
 
-The API runs as a Vercel serverless function (`vercel.json` points it at `main.py`) and
-uses a free Neon Postgres database added through the Vercel Marketplace.
+The API and its PostgreSQL database both run on Railway. `railway.toml` (and the matching
+`Procfile`) tell Railway how to start the server:
 
-1. From `backend/`: `vercel link` (project `the-bakery-api`)
-2. Database: `vercel integration add neon` (sets `DATABASE_URL` for every environment)
-3. Set `SECRET_KEY`, `ALGORITHM`, `ACCESS_TOKEN_EXPIRE_DAYS` with `vercel env add`
-4. Seed once: `vercel env pull .env.local`, then run `python seed.py` with that `DATABASE_URL`
-   (Vercel has no start command, so seeding is not automatic like it was on Railway)
-5. Deploy: `vercel deploy --prod`
+```
+python seed.py; uvicorn main:app --host 0.0.0.0 --port $PORT
+```
 
-`Procfile` and `railway.toml` are kept from the earlier Railway hosting (trial ended
-November 2026); they are not used by Vercel.
+so the menu is seeded on every start (safe to run again) and `/health` is used as the health check.
+
+1. In Railway, create a project from this GitHub repository with `backend/` as the root directory.
+2. Add a **PostgreSQL** database to the project. Railway sets `DATABASE_URL` for the API
+   (`database.py` changes `postgres://` to `postgresql://` for SQLAlchemy).
+3. Set `SECRET_KEY`, `ALGORITHM`, `ACCESS_TOKEN_EXPIRE_DAYS` and `GOOGLE_CLIENT_ID` in the
+   service's **Variables** tab.
+4. Push to `main`; Railway builds and deploys automatically. Logs are under **Deploy Logs**.
+
+`vercel.json` is kept from the short time the API ran on Vercel (12–16 November 2026); Railway does not use it.

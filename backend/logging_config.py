@@ -3,7 +3,7 @@ Central logging setup for The Bakery API.
 
 Every module gets its logger with `get_logger(__name__)`, so each log line says which part
 of the API wrote it (e.g. `bakery.routers.auth`). Lines go to standard output because that
-is what the hosting platform collects: on Vercel they appear under Project -> Logs, and
+is what the hosting platform collects: on Railway they appear under the service's Deploy Logs, and
 locally they print in the terminal running uvicorn.
 
 Level is set with the LOG_LEVEL environment variable (default INFO). Use DEBUG locally to

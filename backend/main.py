@@ -9,7 +9,7 @@ This file builds the FastAPI app that both the website (bake/) and the Android a
   4. logs every request (method, path, status code, time taken) and any crash,
   5. plugs in the routers: /auth, /categories, /products, /orders.
 
-Live:  https://the-bakery-api.vercel.app   (interactive docs at /docs)
+Live:  https://the-bakery-management-system-production.up.railway.app   (interactive docs at /docs)
 Local: uvicorn main:app --reload --port 8000
 
 References:

@@ -5,9 +5,30 @@ the ones we added beyond the module brief.
 
 | Version | Date | Milestone |
 |---|---|---|
+| [1.2.0](#v120--16-november-2026--google-sign-in-and-one-server) | 16 Nov 2026 | Google sign-in, one server for website and app |
 | [1.1.0](#v110--12-november-2026--task-3-final-release) | 12 Nov 2026 | Task 3 final release |
 | [1.0.0](#v100--5-18-october-2026--task-2-working-system) | 5–18 Oct 2026 | Task 2 working system |
 | [0.1.0](#v010--1-4-september-2026--task-1-prototype) | 1–4 Sep 2026 | Task 1 prototype |
+
+---
+
+## v1.2.0 — 16 November 2026 — Google sign-in and one server
+
+### Added
+- **★ Innovative — Sign in with Google** on the website (account page) and in the Android app.
+  The server checks Google's ID token at the new `POST /auth/google` endpoint, then signs the
+  user in, or creates their account on first use (Smilo, Isam).
+- Backend unit tests with pytest (`tests/test_auth.py`) and JUnit tests in the app.
+- `azure-pipelines.yml` now mirrors the Backend CI in Azure DevOps (Tlou).
+- Final demonstration video: https://youtu.be/wD0HBH0ovsQ?si=0ogZ-TJN5DjElmNw
+
+### Changed
+- **The website and the app both use the Railway API:** https://the-bakery-management-system-production.up.railway.app.
+  Before this, the website used Railway and the app used Vercel, so an account made on one
+  did not work on the other, and Google sign-in in the app returned a 404.
+  Only the address lines in `bake/api.js` and `BakeryApi.kt` changed.
+  *Accounts made on the Vercel server must be registered again.*
+- Backend README, code comments and logging notes now describe the Railway setup.
 
 ---
 
@@ -25,7 +46,7 @@ the ones we added beyond the module brief.
 ### Added
 - **★ Innovative — Backend logging with request IDs.** Every API call is logged with its
   method, path, status and time taken. Each response carries an `X-Request-ID` header, so an
-  error seen in the app can be matched to its exact log line in Vercel → Logs.
+  error seen in the app can be matched to its exact log line in the hosting logs.
 - **★ Innovative — Privacy-safe audit trail (POPIA).** Sign-ups, logins, failed logins, orders,
   order status changes and menu edits are logged with user ids and masked emails
   (`t***@gmail.com`). Passwords and tokens are never logged.
@@ -43,7 +64,7 @@ the ones we added beyond the module brief.
 ### Still to be added by the team before submission
 - [ ] Website updates from lecturer feedback, with screenshots (Smilo)
 - [ ] Google Play Console upload screenshot (Isam)
-- [ ] Final demonstration video link (Tlou)
+- [x] Final demonstration video link (Tlou), added in v1.2.0
 
 ---
 

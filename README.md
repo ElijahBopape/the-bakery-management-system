@@ -10,8 +10,8 @@ share one REST API and one online PostgreSQL database.
 
 | | |
 |---|---|
-| **Demo video** | https://youtu.be/_IyT-tbq1Rw?si=AKq-o2toBcZcYCS5 *(Task 3 video link to be updated)* |
-| **Live API** | https://the-bakery-api.vercel.app — interactive docs at [`/docs`](https://the-bakery-api.vercel.app/docs) |
+| **Demo video** | [Watch on YouTube](https://youtu.be/wD0HBH0ovsQ?si=0ogZ-TJN5DjElmNw) |
+| **Live API** | https://the-bakery-management-system-production.up.railway.app — interactive docs at [`/docs`](https://the-bakery-management-system-production.up.railway.app/docs) |
 | **Release notes** | [RELEASE_NOTES.md](./RELEASE_NOTES.md) — every update since the prototype |
 | **Module** | XISD6329/w — Work Integrated Learning |
 
@@ -55,8 +55,8 @@ it hard to know what was ordered, what was ready and what sold well. This system
 flowchart LR
     W["Website<br/>HTML / CSS / JS<br/>bake/"] -- "HTTPS + JSON<br/>Bearer token" --> API
     A["Android app<br/>Kotlin + Jetpack Compose<br/>mobile-app/"] -- "HTTPS + JSON<br/>Retrofit" --> API
-    API["REST API<br/>Python + FastAPI<br/>Vercel"] -- SQLAlchemy --> DB[("PostgreSQL<br/>Neon")]
-    API -. logs .-> L["Vercel Logs"]
+    API["REST API<br/>Python + FastAPI<br/>Railway"] -- SQLAlchemy --> DB[("PostgreSQL<br/>Railway")]
+    API -. logs .-> L["Railway Logs"]
 ```
 
 ### Design considerations
@@ -72,7 +72,7 @@ flowchart LR
 | **Hide, don't delete** | Products that are on past orders can't be deleted (409), only hidden, so order history never breaks. |
 | **Works when the server is down** | The website keeps a built-in menu and offers WhatsApp ordering if the API can't be reached. |
 | **Logging with request IDs, privacy-safe** | Every call is logged with its status and time. Emails are masked and passwords/tokens never logged (POPIA). |
-| **Free hosting** | Vercel (API) + Neon (database) cost nothing and wake in about a second. We moved here from Railway when its trial ended (see release notes). |
+| **One hosting platform** | The API and its PostgreSQL database both run on Railway, so the website and app share the same accounts, menu and orders. The server also handles Google sign-in (see release notes). |
 | **Dark, warm visual style** | Gold on dark brown matches the bakery's shop and branding; the same palette is used on the website and app. |
 
 ### Repository structure
@@ -103,7 +103,7 @@ the-bakery-management-system/
 - **Clear commit messages** in the form `type(area): what changed`, e.g.
   `fix(backend): block deleting a product that is on existing orders`.
 - **No secrets and no zip files** in the repo: `.env`, database files, signing keys and
-  `keystore.properties` are in `.gitignore`. Server secrets live in Vercel's settings.
+  `keystore.properties` are in `.gitignore`. Server secrets live in Railway's service variables.
 - **Azure DevOps** holds the Kanban board, and `azure-pipelines.yml` mirrors the CI there.
 
 ## 5. How we use GitHub Actions
@@ -122,12 +122,13 @@ and in the badges at the top of this page.
 
 ## 6. API
 
-Base URL (live): `https://the-bakery-api.vercel.app` · local: `http://localhost:8000`
+Base URL (live): `https://the-bakery-management-system-production.up.railway.app` · local: `http://localhost:8000`
 
 | Method | Endpoint | Auth | Description |
 |--------|----------|------|-------------|
 | POST | `/auth/register` | — | Register a new customer (returns a token) |
 | POST | `/auth/login` | — | Log in, returns a JWT token |
+| POST | `/auth/google` | — | Sign in with Google (sends Google's ID token, returns our token) |
 | GET | `/auth/sso` | Bearer | Check a saved token (SSO on start-up) |
 | GET | `/auth/me` | Bearer | Current user's profile |
 | GET | `/categories` | — | All menu categories |
@@ -153,7 +154,7 @@ Where each app connects:
 ### Logging
 
 The API logs one line per request, plus events such as sign-ups, failed logins, new orders and
-status changes. View them in **Vercel → the-bakery-api → Logs**, or in the terminal when running locally.
+status changes. View them in **Railway → the service → Deploy Logs**, or in the terminal when running locally.
 
 ```
 INFO bakery.routers.auth | Login succeeded user_id=13 role=customer

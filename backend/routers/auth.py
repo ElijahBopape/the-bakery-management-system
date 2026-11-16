@@ -41,7 +41,7 @@ log = get_logger(__name__)
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
-# Settings come from environment variables (Vercel project settings, or backend/.env locally).
+# Settings come from environment variables (Railway service variables, or backend/.env locally).
 SECRET_KEY = os.getenv("SECRET_KEY", "change-this-secret-key-in-production")
 ALGORITHM = os.getenv("ALGORITHM", "HS256")
 ACCESS_TOKEN_EXPIRE_DAYS = int(os.getenv("ACCESS_TOKEN_EXPIRE_DAYS", "7"))

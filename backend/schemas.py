@@ -113,6 +113,9 @@ class OrderCreate(BaseModel):
 class OrderStatusUpdate(BaseModel):
     status: str
 
+class GoogleLogin(BaseModel):
+    credential: str  # the Google ID token sent by the website
+
 
 class OrderOut(BaseModel):
     id: int
@@ -126,3 +129,4 @@ class OrderOut(BaseModel):
 
     class Config:
         from_attributes = True
+

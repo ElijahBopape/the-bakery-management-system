@@ -19,20 +19,23 @@ References:
   Available at: https://passlib.readthedocs.io/en/stable/narr/context-tutorial.html (Accessed: 12 November 2026).
 """
 import os
+import secrets
 from datetime import datetime, timedelta
 from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from sqlalchemy import func                      # <- NEW
 from sqlalchemy.orm import Session
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from dotenv import load_dotenv
+from google.oauth2 import id_token               # <- NEW
+from google.auth.transport import requests as google_requests   # <- NEW
 
 from database import get_db
 from logging_config import get_logger, mask_email
 import models
 import schemas
-
 load_dotenv()
 log = get_logger(__name__)
 
@@ -42,6 +45,7 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 SECRET_KEY = os.getenv("SECRET_KEY", "change-this-secret-key-in-production")
 ALGORITHM = os.getenv("ALGORITHM", "HS256")
 ACCESS_TOKEN_EXPIRE_DAYS = int(os.getenv("ACCESS_TOKEN_EXPIRE_DAYS", "7"))
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", "")
 
 if SECRET_KEY == "change-this-secret-key-in-production":
     # Fine on a laptop, dangerous online: anyone who knows the default could forge tokens.
@@ -142,6 +146,46 @@ def login(payload: schemas.UserLogin, db: Session = Depends(get_db)):
         raise HTTPException(status_code=401, detail="Invalid email or password")
 
     log.info("Login succeeded user_id=%s role=%s", user.id, user.role)
+    token = create_access_token({"sub": str(user.id), "email": user.email, "role": user.role})
+    return {"access_token": token, "token_type": "bearer", "user": user}
+
+@router.post("/google", response_model=schemas.Token)
+def google_login(payload: schemas.GoogleLogin, db: Session = Depends(get_db)):
+    """
+    Sign in (or sign up) with Google.
+    The website sends the Google ID token; we verify it with Google, then find or
+    create the matching user and return OUR OWN JWT, exactly like /auth/login.
+    """
+    if not GOOGLE_CLIENT_ID:
+        raise HTTPException(status_code=500, detail="Google sign-in is not configured")
+
+    try:
+        info = id_token.verify_oauth2_token(
+            payload.credential, google_requests.Request(), GOOGLE_CLIENT_ID
+        )
+    except ValueError:
+        raise HTTPException(status_code=401, detail="Invalid Google token")
+
+    if not info.get("email") or not info.get("email_verified"):
+        raise HTTPException(status_code=401, detail="Google email is not verified")
+
+    email = info["email"].lower()
+    user = db.query(models.User).filter(func.lower(models.User.email) == email).first()
+
+    if not user:
+        # First time with Google: create a customer account.
+        # password_hash is required by the model, so store a hash of a random
+        # secret nobody knows (this account signs in with Google only).
+        user = models.User(
+            name=info.get("name") or email.split("@")[0],
+            email=email,
+            password_hash=hash_password(secrets.token_urlsafe(32)),
+            role="customer",
+        )
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+
     token = create_access_token({"sub": str(user.id), "email": user.email, "role": user.role})
     return {"access_token": token, "token_type": "bearer", "user": user}
 

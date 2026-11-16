@@ -74,6 +74,12 @@
       </div>
 
       <div class="panel auth-panel">
+        <!-- Google sign in (POST /auth/google). Works for new and existing customers. -->
+        <div id="google-btn" class="google-btn"></div>
+        <p class="form-error google-error" id="google-error" role="alert"></p>
+
+        <div class="auth-divider">or use your email</div>
+
         <div class="auth-tabs" role="tablist" aria-label="Sign in or create an account">
           <button type="button" role="tab" id="tab-login" aria-selected="true" aria-controls="login-form">Sign in</button>
           <button type="button" role="tab" id="tab-register" aria-selected="false" aria-controls="register-form" tabindex="-1">Create account</button>
@@ -188,5 +194,7 @@
   <script src="api.js"></script>
   <script src="cart.js"></script>
   <script src="account.js"></script>
+  <!-- Google's sign-in library loads after account.js, so window.onGoogleLibraryLoad is ready for it -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </body>
 </html>

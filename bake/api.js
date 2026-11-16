@@ -3,8 +3,14 @@
 // It follows the team's "How to Connect to the Backend API" guide.
 
 // 1. Server address. To switch servers you only change this ONE line.
-const API_BASE = "https://the-bakery-api.vercel.app";
+const API_BASE = "https://the-bakery-management-system-production.up.railway.app";
+// const API_BASE = "https://the-bakery-api.vercel.app"; // old Vercel + Neon server (no Google sign-in)
 // const API_BASE = "http://localhost:8000"; // local backend: cd backend, then uvicorn main:app --reload
+
+// Google sign-in (the "Continue with Google" button on account.html).
+// Must match GOOGLE_CLIENT_ID on the server, and the site's address must be an
+// "Authorized JavaScript origin" for this client in Google Cloud Console.
+const GOOGLE_CLIENT_ID = "184093230182-lki408sm2dr93de6s47kd66t283duhma.apps.googleusercontent.com";
 
 (function () {
   "use strict";
@@ -100,6 +106,13 @@ const API_BASE = "https://the-bakery-api.vercel.app";
     saveSession(data.access_token, data.user);
     return data.user;
   }
+  // Google: the server checks Google's ID token, then signs in (or creates) the
+  // customer and returns our own token, exactly like /auth/login.
+  async function googleLogin(credential) {
+    const data = await api("/auth/google", { method: "POST", body: JSON.stringify({ credential }) });
+    saveSession(data.access_token, data.user);
+    return data.user;
+  }
   function logout() {
     clearSession();
   }
@@ -152,5 +165,5 @@ const API_BASE = "https://the-bakery-api.vercel.app";
   const ready = sso();
   ready.catch(() => {}); // server unreachable: pages that care handle it themselves
 
-  window.BakeryAPI = { base: API_BASE, api, ready, login, register, logout, sso, getToken, getUser, formatPrice, formatDate, escapeHtml, ApiError };
+  window.BakeryAPI = { base: API_BASE, googleClientId: GOOGLE_CLIENT_ID, api, ready, login, register, googleLogin, logout, sso, getToken, getUser, formatPrice, formatDate, escapeHtml, ApiError };
 })();

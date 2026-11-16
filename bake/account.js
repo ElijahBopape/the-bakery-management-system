@@ -18,10 +18,12 @@
 
   function show(name) {
     Object.keys(views).forEach((key) => { views[key].hidden = key !== name; });
+    if (name === "auth") renderGoogleButton();
   }
 
   // ---- 1. Start: SSO check ----
   async function start(check) {
+    views.loading.textContent = "Checking your sign-in…";
     show("loading");
     let user;
     try {
@@ -149,9 +151,46 @@
       }));
   });
 
-  // ---- 4. Other buttons ----
+  // ---- 4. Google sign in (POST /auth/google) ----
+  // Google's library (loaded after this file) calls window.onGoogleLibraryLoad when ready.
+  let googleLoaded = false;
+  let googleRendered = false;
+
+  // Drawn once, and only while the sign-in view is visible so Google gets the right width
+  function renderGoogleButton() {
+    if (!googleLoaded || googleRendered || views.auth.hidden) return;
+    const box = $("google-btn");
+    google.accounts.id.renderButton(box, {
+      theme: "outline",
+      size: "large",
+      text: "continue_with",
+      width: Math.max(200, Math.min(400, box.clientWidth || 320)),
+    });
+    googleRendered = true;
+  }
+
+  async function handleGoogleResponse(response) {
+    $("google-error").textContent = "";
+    views.loading.textContent = "Signing in with Google…";
+    show("loading");
+    try {
+      showAccount(await API.googleLogin(response.credential));
+    } catch (err) {
+      show("auth");
+      $("google-error").textContent = err.message;
+    }
+  }
+
+  window.onGoogleLibraryLoad = () => {
+    google.accounts.id.initialize({ client_id: API.googleClientId, callback: handleGoogleResponse });
+    googleLoaded = true;
+    renderGoogleButton();
+  };
+
+  // ---- 5. Other buttons ----
   $("logout-btn").addEventListener("click", () => {
     API.logout();
+    if (window.google && google.accounts) google.accounts.id.disableAutoSelect(); // don't sign straight back in
     $("order-list").innerHTML = "";
     selectTab(0);
     show("auth");

@@ -1,37 +1,98 @@
-# Python package
-# Create and test a Python package on multiple Python versions.
-# Add steps that analyze code, save the dist with the build record, publish to a PyPI-compatible index, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/python
+# Azure Pipelines — Backend CI
+# Mirrors .github/workflows/backend.yml so Azure DevOps and GitHub Actions run the same checks:
+#   1. Lint (ruff, runtime-breaking errors only)
+#   2. On Python 3.11 and 3.12: install, seed a fresh SQLite database, start the API,
+#      run the 45-check smoke test, and run the pytest unit tests.
+# https://learn.microsoft.com/azure/devops/pipelines/languages/python
 
 trigger:
-- main
+  branches:
+    include: [main]
+  paths:
+    include:
+      - backend/*
+      - azure-pipelines.yml
+
+pr:
+  branches:
+    include: [main]
+  paths:
+    include:
+      - backend/*
+      - azure-pipelines.yml
 
 pool:
   vmImage: ubuntu-latest
 
-strategy:
-  matrix:
-    Python38:
-      python.version: '3.8'
-    Python39:
-      python.version: '3.9'
-    Python310:
-      python.version: '3.10'
-    Python311:
-      python.version: '3.11'
+stages:
+- stage: Lint
+  displayName: Lint (ruff)
+  jobs:
+  - job: ruff
+    displayName: Ruff
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.12'
+      displayName: Use Python 3.12
+    - script: pip install ruff
+      displayName: Install ruff
+    - script: ruff check --select E9,F63,F7,F82 .
+      workingDirectory: backend
+      displayName: Ruff
 
-steps:
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: '$(python.version)'
-  displayName: 'Use Python $(python.version)'
+- stage: Test
+  displayName: API tests
+  dependsOn: []
+  jobs:
+  - job: api
+    displayName: API tests
+    timeoutInMinutes: 15
+    strategy:
+      matrix:
+        Python311:
+          python.version: '3.11'
+        Python312:
+          python.version: '3.12'
+    variables:
+      DATABASE_URL: sqlite:///./ci.db
+      SECRET_KEY: ci-only-secret
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '$(python.version)'
+      displayName: Use Python $(python.version)
 
-- script: |
-    python -m pip install --upgrade pip
-    pip install -r requirements.txt
-  displayName: 'Install dependencies'
+    - script: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest pytest-azurepipelines httpx
+      workingDirectory: backend
+      displayName: Install dependencies
 
-- script: |
-    pip install pytest pytest-azurepipelines
-    pytest
-  displayName: 'pytest'
+    - script: python seed.py
+      workingDirectory: backend
+      displayName: Seed database
+
+    - script: |
+        nohup uvicorn main:app --port 8000 > uvicorn.log 2>&1 &
+        for i in $(seq 1 30); do
+          curl -sf http://localhost:8000/health && exit 0
+          sleep 1
+        done
+        echo "API did not start"; cat uvicorn.log; exit 1
+      workingDirectory: backend
+      displayName: Start API
+
+    - script: python tests/api_smoke_test.py http://localhost:8000
+      workingDirectory: backend
+      displayName: Run smoke test
+
+    - script: pytest
+      workingDirectory: backend
+      displayName: Run pytest unit tests
+
+    - script: cat uvicorn.log
+      workingDirectory: backend
+      condition: always()
+      displayName: Server log
